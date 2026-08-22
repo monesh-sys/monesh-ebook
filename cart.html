@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cart — Monesh Ebooks</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <a
+        href="index.html"
+        class="brand"
+    >
+
+        <span class="brand-mark">
+            M
+        </span>
+
+        MONESH EBOOKS
+
+    </a>
+
+
+    <nav class="nav">
+
+        <a href="books.html">
+            Books
+        </a>
+
+        <a href="cart.html">
+            Cart
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+<div class="container">
+
+    <p class="kicker">
+        YOUR CART
+    </p>
+
+    <h1>
+        Shopping cart.
+    </h1>
+
+
+    <div id="cartContainer"></div>
+
+
+</div>
+
+</main>
+
+
+<script src="js/data.js"></script>
+
+<script src="js/app.js"></script>
+
+
+<script>
+
+const cart =
+    getCart();
+
+
+const container =
+    document.getElementById(
+        "cartContainer"
+    );
+
+
+if (cart.length === 0) {
+
+    container.innerHTML = `
+
+        <div class="empty">
+
+            <h2>
+                Your cart is empty.
+            </h2>
+
+            <br>
+
+            <a
+                href="books.html"
+                class="btn btn-dark"
+            >
+                Browse Books
+            </a>
+
+        </div>
+
+    `;
+
+} else {
+
+    let total = 0;
+
+    let html = "";
+
+
+    cart.forEach(id => {
+
+        const book =
+            getBook(id);
+
+
+        if (!book) return;
+
+
+        total += book.price;
+
+
+        html += `
+
+            <div class="cart-item">
+
+                <img
+                    src="${book.cover}"
+                    alt="${book.title}"
+                >
+
+                <div>
+
+                    <h3>
+                        ${book.title}
+                    </h3>
+
+                    <p>
+                        ${book.author}
+                    </p>
+
+                    <br>
+
+                    <strong>
+                        ₹${book.price}
+                    </strong>
+
+                    <br><br>
+
+                    <button
+                        onclick="removeFromCart(${book.id})"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    html += `
+
+        <div class="cart-total">
+
+            <h2>
+                Total: ₹${total}
+            </h2>
+
+            <br>
+
+            <a
+                href="payment.html?id=${cart[0]}"
+                class="btn btn-dark"
+            >
+                Checkout →
+            </a>
+
+        </div>
+
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+</script>
+
+
+</body>
+
+</html>

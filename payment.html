@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment | Monesh Ebooks</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: #f7f7f5;
+
+            color: #171717;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        .payment-container {
+            max-width: 1000px;
+
+            margin: 60px auto;
+
+            padding: 20px;
+        }
+
+
+        .payment-title {
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .payment-title h1 {
+            font-family: Georgia, serif;
+
+            font-size: 45px;
+
+            font-weight: 500;
+
+            margin: 10px 0;
+        }
+
+
+        .payment-title p {
+            color: #666;
+        }
+
+
+        .payment-card {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 40px;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .book-section {
+            border-right: 1px solid #ddd;
+
+            padding-right: 40px;
+        }
+
+
+        .book-cover {
+
+            width: 180px;
+
+            height: 250px;
+
+            object-fit: cover;
+
+            border-radius: 6px;
+
+            display: block;
+
+            margin-bottom: 25px;
+
+            background: #eee;
+        }
+
+
+        .book-section h2 {
+
+            font-family: Georgia, serif;
+
+            font-size: 32px;
+
+            margin: 10px 0;
+        }
+
+
+        .author {
+
+            color: #666;
+
+            margin-bottom: 20px;
+        }
+
+
+        .price {
+
+            font-size: 35px;
+
+            font-weight: bold;
+
+            margin: 20px 0;
+        }
+
+
+        .description {
+
+            color: #666;
+
+            line-height: 1.7;
+        }
+
+
+        .qr-section {
+
+            text-align: center;
+        }
+
+
+        .qr-section h2 {
+
+            font-family: Georgia, serif;
+
+            font-size: 28px;
+
+            margin-top: 0;
+        }
+
+
+        #upiQr {
+
+            width: 280px;
+
+            height: 280px;
+
+            margin: 25px auto;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: white;
+        }
+
+
+        #upiQr img {
+
+            width: 280px;
+
+            height: 280px;
+        }
+
+
+        .upi-box {
+
+            background: #f0eee8;
+
+            border-radius: 8px;
+
+            padding: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .upi-box span {
+
+            display: block;
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .upi-box strong {
+
+            font-size: 17px;
+        }
+
+
+        .instructions {
+
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        .payment-form {
+
+            text-align: left;
+        }
+
+
+        .payment-form label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .payment-form input {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            margin-bottom: 15px;
+        }
+
+
+        .payment-form input:focus {
+
+            border-color: #111;
+        }
+
+
+        .pay-button {
+
+            width: 100%;
+
+            padding: 16px;
+
+            background: #171717;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .pay-button:hover {
+
+            background: #333;
+        }
+
+
+        .message {
+
+            margin-top: 20px;
+
+            line-height: 1.7;
+
+            color: #087f45;
+        }
+
+
+        .library-button {
+
+            display: none;
+
+            width: 100%;
+
+            margin-top: 15px;
+
+            padding: 15px;
+
+            background: #087f45;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+
+        .back {
+
+            display: inline-block;
+
+            margin-top: 25px;
+
+            color: #555;
+
+            text-decoration: none;
+        }
+
+
+        .warning {
+
+            background: #fff7d6;
+
+            border: 1px solid #ead99a;
+
+            color: #665a25;
+
+            padding: 14px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-top: 25px;
+        }
+
+
+        @media (max-width: 750px) {
+
+            .payment-card {
+
+                grid-template-columns: 1fr;
+
+                padding: 25px;
+            }
+
+
+            .book-section {
+
+                border-right: none;
+
+                border-bottom: 1px solid #ddd;
+
+                padding-right: 0;
+
+                padding-bottom: 30px;
+            }
+
+
+            .payment-title h1 {
+
+                font-size: 35px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="payment-container">
+
+
+    <div class="payment-title">
+
+        <p>
+            SECURE CHECKOUT
+        </p>
+
+        <h1>
+            Complete your purchase
+        </h1>
+
+        <p>
+            Pay using UPI and get your ebook.
+        </p>
+
+    </div>
+
+
+    <div class="payment-card">
+
+
+        <!-- BOOK INFORMATION -->
+
+        <section class="book-section">
+
+
+            <img
+                id="bookCover"
+                class="book-cover"
+                src=""
+                alt="Book cover"
+            >
+
+
+            <h2 id="bookTitle">
+                Loading...
+            </h2>
+
+
+            <div
+                id="bookAuthor"
+                class="author"
+            >
+                Loading...
+            </div>
+
+
+            <div class="price">
+
+                ₹<span id="bookPrice">
+                    0
+                </span>
+
+            </div>
+
+
+            <p
+                id="bookDescription"
+                class="description"
+            >
+                Loading...
+            </p>
+
+
+            <div class="warning">
+
+                <strong>Important:</strong>
+
+                Never share your UPI PIN,
+                OTP, password or banking
+                credentials.
+
+            </div>
+
+
+            <a
+                href="books.html"
+                class="back"
+            >
+                ← Back to Books
+            </a>
+
+
+        </section>
+
+
+
+        <!-- PAYMENT -->
+
+        <section class="qr-section">
+
+
+            <h2>
+                Scan & Pay
+            </h2>
+
+
+            <p>
+                Pay ₹<span id="qrAmount">0</span>
+                using UPI
+            </p>
+
+
+            <!-- QR -->
+
+            <div id="upiQr"></div>
+
+
+            <!-- UPI ID -->
+
+            <div class="upi-box">
+
+                <span>
+                    UPI ID
+                </span>
+
+                <strong>
+                    7338789676@fam
+                </strong>
+
+            </div>
+
+
+            <div class="instructions">
+
+                Scan the QR code using
+                Google Pay, FamApp or
+                another compatible UPI app.
+
+                <br><br>
+
+                The amount will be filled
+                automatically.
+
+            </div>
+
+
+
+            <!-- PAYMENT FORM -->
+
+            <form
+                id="paymentForm"
+                class="payment-form"
+            >
+
+                <label for="utr">
+
+                    Payment Reference / UTR / UPI Transaction ID
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="utr"
+                    placeholder="Enter UPI transaction ID"
+                    minlength="6"
+                    maxlength="50"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="pay-button"
+                >
+
+                    I Have Paid →
+
+                </button>
+
+
+            </form>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <!-- LIBRARY BUTTON -->
+
+            <a
+                href="library.html"
+                id="libraryButton"
+                class="library-button"
+            >
+
+                📚 Go to My Library
+
+            </a>
+
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<!-- QR LIBRARY -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+<!-- BOOK DATA -->
+
+<script src="js/data.js"></script>
+
+
+<script>
+
+
+// ========================================
+// GET BOOK ID
+// ========================================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const bookId =
+    Number(
+        urlParams.get("id")
+    );
+
+
+// ========================================
+// FIND BOOK
+// ========================================
+
+const book =
+    books.find(
+        item => item.id === bookId
+    );
+
+
+// ========================================
+// CHECK BOOK
+// ========================================
+
+if (!book) {
+
+    document.body.innerHTML = `
+
+        <div style="
+            text-align:center;
+            padding:100px 20px;
+            font-family:Arial;
+        ">
+
+            <h1>
+                Book not found
+            </h1>
+
+            <a href="books.html">
+                Back to Books
+            </a>
+
+        </div>
+
+    `;
+
+} else {
+
+
+    // ====================================
+    // DISPLAY BOOK
+    // ====================================
+
+    document.getElementById(
+        "bookCover"
+    ).src = book.cover;
+
+
+    document.getElementById(
+        "bookCover"
+    ).alt = book.title;
+
+
+    document.getElementById(
+        "bookTitle"
+    ).textContent = book.title;
+
+
+    document.getElementById(
+        "bookAuthor"
+    ).textContent =
+        "By " + book.author;
+
+
+    document.getElementById(
+        "bookPrice"
+    ).textContent =
+        book.price;
+
+
+    document.getElementById(
+        "qrAmount"
+    ).textContent =
+        book.price;
+
+
+    document.getElementById(
+        "bookDescription"
+    ).textContent =
+        book.description;
+
+
+
+    // ====================================
+    // CREATE UPI LINK
+    // ====================================
+
+    const upiId =
+        "7338789676@fam";
+
+
+    const merchantName =
+        "Monesh Ebooks";
+
+
+    const upiLink =
+        "upi://pay" +
+
+        "?pa=" +
+        encodeURIComponent(upiId) +
+
+        "&pn=" +
+        encodeURIComponent(merchantName) +
+
+        "&am=" +
+        encodeURIComponent(book.price) +
+
+        "&cu=INR";
+
+
+
+    // ====================================
+    // CREATE QR
+    // ====================================
+
+    new QRCode(
+
+        document.getElementById(
+            "upiQr"
+        ),
+
+        {
+
+            text: upiLink,
+
+            width: 280,
+
+            height: 280,
+
+            correctLevel:
+                QRCode.CorrectLevel.H
+
+        }
+
+    );
+
+}
+
+
+
+// ========================================
+// PAYMENT SUBMISSION
+// ========================================
+
+document
+    .getElementById("paymentForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            // ==============================
+            // GET UTR
+            // ==============================
+
+            const utr =
+                document
+                .getElementById("utr")
+                .value
+                .trim();
+
+
+            if (utr.length < 6) {
+
+                alert(
+                    "Please enter your UPI transaction ID."
+                );
+
+                return;
+
+            }
+
+
+            // ==============================
+            // GET CURRENT LIBRARY
+            // ==============================
+
+            let library =
+                JSON.parse(
+                    localStorage.getItem(
+                        "library"
+                    ) || "[]"
+                );
+
+
+            // ==============================
+            // ADD BOOK
+            // ==============================
+
+            if (!library.includes(book.id)) {
+
+                library.push(book.id);
+
+            }
+
+
+            // ==============================
+            // SAVE LIBRARY
+            // ==============================
+
+            localStorage.setItem(
+
+                "library",
+
+                JSON.stringify(library)
+
+            );
+
+
+            // ==============================
+            // SAVE PAYMENT RECORD
+            // ==============================
+
+            let payments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "payments"
+                    ) || "[]"
+                );
+
+
+            const order = {
+
+                orderId:
+                    "ORDER-" +
+                    Date.now(),
+
+                bookId:
+                    book.id,
+
+                bookTitle:
+                    book.title,
+
+                amount:
+                    book.price,
+
+                utr:
+                    utr,
+
+                upiId:
+                    "7338789676@fam",
+
+                date:
+                    new Date()
+                    .toISOString(),
+
+                status:
+                    "demo-approved"
+
+            };
+
+
+            payments.push(order);
+
+
+            localStorage.setItem(
+
+                "payments",
+
+                JSON.stringify(payments)
+
+            );
+
+
+            // ==============================
+            // SHOW MESSAGE
+            // ==============================
+
+            document.getElementById(
+                "message"
+            ).innerHTML = `
+
+                <strong>
+                    Payment reference submitted ✓
+                </strong>
+
+                <br><br>
+
+                Order ID:
+                ${order.orderId}
+
+                <br><br>
+
+                📚 Your book has been added
+                to My Library.
+
+            `;
+
+
+            // ==============================
+            // SHOW LIBRARY BUTTON
+            // ==============================
+
+            document.getElementById(
+                "libraryButton"
+            ).style.display =
+                "block";
+
+
+            // ==============================
+            // DISABLE FORM
+            // ==============================
+
+            document
+                .getElementById("utr")
+                .disabled = true;
+
+
+            document
+                .querySelector(".pay-button")
+                .disabled = true;
+
+
+            document
+                .querySelector(".pay-button")
+                .textContent =
+                "Payment Submitted ✓";
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
