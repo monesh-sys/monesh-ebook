@@ -1,2090 +1,1594 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ebook Reader</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #222;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    height: 60px;
+    background: #111;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    <meta charset="UTF-8">
+    padding: 0 15px;
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 
-    <title>Ebook Reader</title>
+    z-index: 1000;
+}
 
+.left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
 
-    <style>
+.back {
+    text-decoration: none;
+    color: white;
+    background: #292929;
 
-        * {
-            box-sizing: border-box;
-        }
+    padding: 9px 13px;
+    border-radius: 6px;
+    font-size: 14px;
+}
 
+.title {
+    font-size: 15px;
+    font-weight: 600;
 
-        html,
-        body {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-            margin: 0;
-            padding: 0;
+    max-width: 400px;
+}
 
-            width: 100%;
-            height: 100%;
+.controls {
+    display: flex;
+    gap: 5px;
+}
 
-            overflow: hidden;
+button {
+    border: 1px solid #444;
+    background: #292929;
+    color: white;
 
-            font-family: Arial, sans-serif;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-            background: #222;
-        }
+.control {
+    width: 38px;
+    height: 35px;
+    font-size: 16px;
+}
 
+button:hover {
+    background: #3d3d3d;
+}
 
-        /* =========================
-           HEADER
-        ========================= */
+/* =========================
+   PDF AREA
+========================= */
 
-        .header {
+#pdfContainer {
+    position: fixed;
 
-            height: 60px;
+    top: 60px;
+    bottom: 55px;
+    left: 0;
+    right: 0;
 
-            background: #111;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-            color: white;
+    background: #525659;
 
-            display: flex;
+    padding: 20px;
 
-            align-items: center;
+    text-align: center;
 
-            justify-content: space-between;
+    z-index: 1;
+}
 
-            padding: 0 15px;
+.page {
+    display: block;
 
-            position: fixed;
+    margin: 0 auto 20px auto;
 
-            top: 0;
-            left: 0;
-            right: 0;
+    background: white;
 
-            z-index: 1000;
-        }
+    box-shadow:
+        0 2px 10px
+        rgba(0, 0, 0, .35);
 
+    max-width: 100%;
 
-        .left {
+    user-select: none;
+    -webkit-user-select: none;
 
-            display: flex;
+    -webkit-touch-callout: none;
+}
 
-            align-items: center;
+/* =========================
+   PROTECTION NOTICE
+========================= */
 
-            gap: 12px;
+.protection-notice {
+    position: fixed;
 
-            min-width: 0;
-        }
+    top: 68px;
+    left: 50%;
 
+    transform: translateX(-50%);
 
-        .back {
+    background: rgba(0, 0, 0, .75);
+    color: white;
 
-            text-decoration: none;
+    padding: 7px 15px;
 
-            color: white;
+    border-radius: 20px;
 
-            background: #292929;
+    font-size: 12px;
 
-            padding: 9px 13px;
+    z-index: 2000;
 
-            border-radius: 6px;
+    pointer-events: none;
 
-            font-size: 14px;
-        }
+    letter-spacing: .5px;
+}
 
+/* =========================
+   BLACK PROTECTION SCREEN
+========================= */
 
-        .title {
+#protectedScreen {
+    position: fixed;
 
-            font-size: 15px;
+    inset: 0;
 
-            font-weight: 600;
+    background: #000;
 
-            white-space: nowrap;
+    color: white;
 
-            overflow: hidden;
+    z-index: 99999;
 
-            text-overflow: ellipsis;
+    display: none;
 
-            max-width: 400px;
-        }
+    align-items: center;
+    justify-content: center;
 
+    flex-direction: column;
 
-        .controls {
+    text-align: center;
+}
 
-            display: flex;
+#protectedScreen .lock {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
 
-            gap: 5px;
-        }
+#protectedScreen h1 {
+    margin: 0 0 10px;
+    font-size: 25px;
+}
 
+#protectedScreen p {
+    color: #aaa;
+    margin: 0;
+    font-size: 14px;
+}
 
-        button {
+/* =========================
+   BOTTOM BAR
+========================= */
 
-            border: 1px solid #444;
+.bottom {
+    position: fixed;
 
-            background: #292929;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-            color: white;
+    height: 55px;
 
-            border-radius: 6px;
+    background: #111;
+    color: white;
 
-            cursor: pointer;
-        }
+    display: flex;
 
+    align-items: center;
+    justify-content: center;
 
-        .control {
+    gap: 12px;
 
-            width: 38px;
+    z-index: 1000;
+}
 
-            height: 35px;
+.nav {
+    padding: 8px 15px;
+    font-size: 13px;
+}
 
-            font-size: 16px;
-        }
+#pageInfo {
+    min-width: 100px;
+    text-align: center;
 
+    font-size: 13px;
+    color: #ccc;
+}
 
-        button:hover {
+/* =========================
+   LOADING
+========================= */
 
-            background: #3d3d3d;
-        }
+#loading {
+    position: fixed;
 
+    inset: 0;
 
-        /* =========================
-           PDF AREA
-        ========================= */
+    background: #111;
+    color: white;
 
-        #pdfContainer {
+    z-index: 5000;
 
-            position: fixed;
+    display: flex;
 
-            top: 60px;
+    flex-direction: column;
 
-            bottom: 55px;
+    align-items: center;
+    justify-content: center;
+}
 
-            left: 0;
+#loading.hidden {
+    display: none;
+}
 
-            right: 0;
+.spinner {
+    width: 42px;
+    height: 42px;
 
-            overflow-y: auto;
+    border: 4px solid #444;
+    border-top-color: white;
 
-            overflow-x: hidden;
+    border-radius: 50%;
 
-            background: #525659;
+    animation: spin .7s linear infinite;
 
-            padding: 20px;
+    margin-bottom: 15px;
+}
 
-            text-align: center;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
-            user-select: none;
+/* =========================
+   ERROR
+========================= */
 
-            -webkit-user-select: none;
-        }
+#error {
+    position: fixed;
 
+    inset: 0;
 
-        .page {
+    background: #111;
+    color: white;
 
-            display: block;
+    z-index: 6000;
 
-            margin: 0 auto 20px auto;
+    display: none;
 
-            background: white;
+    align-items: center;
+    justify-content: center;
 
-            box-shadow:
-                0 2px 10px
-                rgba(0, 0, 0, .35);
+    text-align: center;
 
-            max-width: 100%;
+    padding: 30px;
+}
 
-            user-select: none;
+.error-box {
+    max-width: 450px;
+}
 
-            -webkit-user-select: none;
+.error-box h1 {
+    font-family: Georgia, serif;
+}
 
-            -webkit-user-drag: none;
-        }
+.error-box p {
+    color: #aaa;
+    line-height: 1.6;
+}
 
+.error-box a {
+    display: inline-block;
 
-        /* =========================
-           WATERMARK NOTICE
-        ========================= */
+    margin-top: 15px;
 
-        .protection-notice {
+    padding: 10px 18px;
 
-            position: fixed;
+    background: white;
+    color: #111;
 
-            bottom: 65px;
+    text-decoration: none;
 
-            left: 50%;
+    border-radius: 6px;
+}
 
-            transform: translateX(-50%);
+/* =========================
+   MOBILE
+========================= */
 
-            z-index: 900;
+@media (max-width: 700px) {
 
-            background: rgba(0, 0, 0, .75);
+    .header {
+        height: 55px;
+        padding: 0 8px;
+    }
 
-            color: rgba(255, 255, 255, .95);
+    #pdfContainer {
+        top: 55px;
+        padding: 10px;
+    }
 
-            padding: 7px 18px;
+    .title {
+        max-width: 120px;
+        font-size: 13px;
+    }
 
-            border-radius: 20px;
+    .back {
+        padding: 8px 9px;
+        font-size: 12px;
+    }
 
-            font-size: 12px;
+    .control {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
 
-            font-weight: bold;
-
-            pointer-events: none;
-
-            user-select: none;
-
-            white-space: nowrap;
-        }
-
-
-        /* =========================
-           BOTTOM BAR
-        ========================= */
-
-        .bottom {
-
-            position: fixed;
-
-            bottom: 0;
-
-            left: 0;
-
-            right: 0;
-
-            height: 55px;
-
-            background: #111;
-
-            color: white;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 12px;
-
-            z-index: 1000;
-        }
-
-
-        .nav {
-
-            padding: 8px 15px;
-
-            font-size: 13px;
-        }
-
-
-        #pageInfo {
-
-            min-width: 100px;
-
-            text-align: center;
-
-            font-size: 13px;
-
-            color: #ccc;
-        }
-
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        #loading {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: #111;
-
-            color: white;
-
-            z-index: 5000;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-        }
-
-
-        #loading.hidden {
-
-            display: none;
-        }
-
-
-        .spinner {
-
-            width: 42px;
-
-            height: 42px;
-
-            border: 4px solid #444;
-
-            border-top-color: white;
-
-            border-radius: 50%;
-
-            animation: spin .7s linear infinite;
-
-            margin-bottom: 15px;
-        }
-
-
-        @keyframes spin {
-
-            to {
-
-                transform: rotate(360deg);
-            }
-        }
-
-
-        /* =========================
-           ERROR
-        ========================= */
-
-        #error {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: #111;
-
-            color: white;
-
-            z-index: 6000;
-
-            display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 30px;
-        }
-
-
-        .error-box {
-
-            max-width: 450px;
-        }
-
-
-        .error-box h1 {
-
-            font-family: Georgia, serif;
-        }
-
-
-        .error-box p {
-
-            color: #aaa;
-
-            line-height: 1.6;
-        }
-
-
-        .error-box a {
-
-            display: inline-block;
-
-            margin-top: 15px;
-
-            padding: 10px 18px;
-
-            background: white;
-
-            color: #111;
-
-            text-decoration: none;
-
-            border-radius: 6px;
-        }
-
-
-        /* =========================
-           PROTECTED SCREEN
-        ========================= */
-
-        #protectedScreen {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: #111;
-
-            color: white;
-
-            z-index: 7000;
-
-            display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 30px;
-        }
-
-
-        #protectedScreen .protected-box {
-
-            max-width: 450px;
-        }
-
-
-        #protectedScreen h1 {
-
-            font-size: 28px;
-
-            margin-bottom: 10px;
-        }
-
-
-        #protectedScreen p {
-
-            color: #aaa;
-
-            line-height: 1.6;
-        }
-
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 700px) {
-
-            .header {
-
-                height: 55px;
-
-                padding: 0 8px;
-            }
-
-
-            #pdfContainer {
-
-                top: 55px;
-
-                padding: 10px;
-            }
-
-
-            .title {
-
-                max-width: 120px;
-
-                font-size: 13px;
-            }
-
-
-            .back {
-
-                padding: 8px 9px;
-
-                font-size: 12px;
-            }
-
-
-            .control {
-
-                width: 32px;
-
-                height: 32px;
-
-                font-size: 13px;
-            }
-
-
-            .protection-notice {
-
-                bottom: 60px;
-
-                font-size: 10px;
-
-                padding: 6px 12px;
-            }
-        }
-
-    </style>
-
+    .protection-notice {
+        top: 60px;
+        font-size: 10px;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
 
-    <!-- =========================
-         HEADER
-    ========================= -->
+<header class="header">
 
-    <header class="header">
+    <div class="left">
 
-
-        <div class="left">
-
-
-            <a
-                href="library.html"
-                class="back"
-            >
-                ← Library
-            </a>
-
-
-            <div
-                id="bookTitle"
-                class="title"
-            >
-                Loading...
-            </div>
-
-
-        </div>
-
-
-        <div class="controls">
-
-
-            <button
-                id="zoomOut"
-                class="control"
-                title="Zoom out"
-            >
-                −
-            </button>
-
-
-            <button
-                id="zoomIn"
-                class="control"
-                title="Zoom in"
-            >
-                +
-            </button>
-
-
-            <button
-                id="darkMode"
-                class="control"
-                title="Dark mode"
-            >
-                ☾
-            </button>
-
-
-            <button
-                id="fullscreen"
-                class="control"
-                title="Fullscreen"
-            >
-                ⛶
-            </button>
-
-
-        </div>
-
-
-    </header>
-
-
-    <!-- =========================
-         PDF
-    ========================= -->
-
-    <main id="pdfContainer"></main>
-
-
-    <!-- =========================
-         WATERMARK NOTICE
-    ========================= -->
-
-    <div class="protection-notice">
-
-        🔒 PROTECTED • © MoneshSys
-
-    </div>
-
-
-    <!-- =========================
-         BOTTOM
-    ========================= -->
-
-    <div class="bottom">
-
-
-        <button
-            id="previous"
-            class="nav"
+        <a
+            href="library.html"
+            class="back"
         >
-            ← Previous
-        </button>
+            ← Library
+        </a>
 
-
-        <div id="pageInfo">
-
+        <div
+            id="bookTitle"
+            class="title"
+        >
             Loading...
-
         </div>
 
+    </div>
+
+    <div class="controls">
 
         <button
-            id="next"
-            class="nav"
+            id="zoomOut"
+            class="control"
+            title="Zoom out"
         >
-            Next →
-
+            −
         </button>
 
+        <button
+            id="zoomIn"
+            class="control"
+            title="Zoom in"
+        >
+            +
+        </button>
+
+        <button
+            id="darkMode"
+            class="control"
+            title="Dark mode"
+        >
+            ☾
+        </button>
+
+        <button
+            id="fullscreen"
+            class="control"
+            title="Fullscreen"
+        >
+            ⛶
+        </button>
 
     </div>
 
-
-    <!-- =========================
-         LOADING
-    ========================= -->
-
-    <div id="loading">
+</header>
 
 
-        <div class="spinner"></div>
+<!-- =========================
+     PROTECTION NOTICE
+========================= -->
+
+<div class="protection-notice">
+    🔒 PROTECTED • © MoneshSys
+</div>
 
 
-        <div>
-            Opening ebook...
-        </div>
+<!-- =========================
+     PDF
+========================= -->
 
+<main id="pdfContainer"></main>
+
+
+<!-- =========================
+     BOTTOM
+========================= -->
+
+<div class="bottom">
+
+    <button
+        id="previous"
+        class="nav"
+    >
+        ← Previous
+    </button>
+
+    <div id="pageInfo">
+        Loading...
+    </div>
+
+    <button
+        id="next"
+        class="nav"
+    >
+        Next →
+    </button>
+
+</div>
+
+
+<!-- =========================
+     BLACK PROTECTION SCREEN
+========================= -->
+
+<div id="protectedScreen">
+
+    <div class="lock">
+        🔒
+    </div>
+
+    <h1>
+        Protected Content
+    </h1>
+
+    <p>
+        Ebook content is hidden for security.
+    </p>
+
+</div>
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<div id="loading">
+
+    <div class="spinner"></div>
+
+    <div>
+        Opening ebook...
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ERROR
+========================= -->
+
+<div id="error">
+
+    <div class="error-box">
+
+        <h1>
+            Unable to open ebook
+        </h1>
+
+        <p id="errorMessage">
+            Something went wrong.
+        </p>
+
+        <a href="library.html">
+            Back to Library
+        </a>
 
     </div>
 
-
-    <!-- =========================
-         ERROR
-    ========================= -->
-
-    <div id="error">
+</div>
 
 
-        <div class="error-box">
+<!-- =========================
+     BOOK DATA
+========================= -->
+
+<script src="js/data.js"></script>
 
 
-            <h1>
-                Unable to open ebook
-            </h1>
+<!-- =========================
+     PDF.JS
+========================= -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
-            <p id="errorMessage">
+/* =====================================================
+   GET BOOK ID
+===================================================== */
 
-                Something went wrong.
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-            </p>
-
-
-            <a href="library.html">
-
-                Back to Library
-
-            </a>
-
-
-        </div>
+const bookId =
+    Number(
+        params.get("id")
+    );
 
 
-    </div>
+/* =====================================================
+   FIND BOOK
+===================================================== */
+
+const book =
+    books.find(
+        item =>
+            Number(item.id) === bookId
+    );
 
 
-    <!-- =========================
-         PROTECTED SCREEN
-    ========================= -->
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    <div id="protectedScreen">
+const container =
+    document.getElementById(
+        "pdfContainer"
+    );
 
+const bookTitle =
+    document.getElementById(
+        "bookTitle"
+    );
 
-        <div class="protected-box">
+const loading =
+    document.getElementById(
+        "loading"
+    );
 
+const error =
+    document.getElementById(
+        "error"
+    );
 
-            <h1>
-                🔒 Protected Reader
-            </h1>
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
 
+const pageInfo =
+    document.getElementById(
+        "pageInfo"
+    );
 
-            <p>
+const previous =
+    document.getElementById(
+        "previous"
+    );
 
-                The ebook is temporarily hidden
-                because the reader window is not active.
+const next =
+    document.getElementById(
+        "next"
+    );
 
-            </p>
+const zoomIn =
+    document.getElementById(
+        "zoomIn"
+    );
 
+const zoomOut =
+    document.getElementById(
+        "zoomOut"
+    );
 
-            <p>
+const darkMode =
+    document.getElementById(
+        "darkMode"
+    );
 
-                Return to this reader to continue reading.
+const fullscreen =
+    document.getElementById(
+        "fullscreen"
+    );
 
-            </p>
-
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =========================
-         BOOK DATA
-    ========================= -->
-
-    <script src="js/data.js"></script>
-
-
-
-    <!-- =========================
-         PDF.JS
-    ========================= -->
-
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
-    ></script>
-
-
-
-    <script>
-
-
-        // =====================================================
-        // PDF.JS WORKER
-        // =====================================================
-
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-
-
-        // =====================================================
-        // GET BOOK ID
-        // =====================================================
-
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
+const protectedScreen =
+    document.getElementById(
+        "protectedScreen"
+    );
 
 
-        const bookId =
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let pdf = null;
+
+let currentPage = 1;
+
+let totalPages = 0;
+
+let scale = 1.3;
+
+
+/* =====================================================
+   PROTECTION STATE
+===================================================== */
+
+let protectedMode = false;
+
+
+/* =====================================================
+   CHECK BOOK
+===================================================== */
+
+if (!book) {
+
+    showError(
+        "Book not found."
+    );
+
+} else {
+
+    bookTitle.textContent =
+        book.title;
+
+    openPDF();
+}
+
+
+/* =====================================================
+   OPEN PDF
+===================================================== */
+
+async function openPDF() {
+
+    try {
+
+        pdf =
+            await pdfjsLib.getDocument(
+                book.pdf
+            ).promise;
+
+        totalPages =
+            pdf.numPages;
+
+        loading.classList.add(
+            "hidden"
+        );
+
+        await renderPage(1);
+
+        pageInfo.textContent =
+            "1 / " + totalPages;
+
+
+        const savedPage =
             Number(
-                params.get("id")
+                localStorage.getItem(
+                    "pdf-page-" +
+                    book.id
+                )
             );
 
 
-
-        // =====================================================
-        // FIND BOOK
-        // =====================================================
-
-        const book =
-            books.find(
-                item =>
-                    Number(item.id) === bookId
-            );
-
-
-
-        // =====================================================
-        // ELEMENTS
-        // =====================================================
-
-        const container =
-            document.getElementById(
-                "pdfContainer"
-            );
-
-
-        const bookTitle =
-            document.getElementById(
-                "bookTitle"
-            );
-
-
-        const loading =
-            document.getElementById(
-                "loading"
-            );
-
-
-        const error =
-            document.getElementById(
-                "error"
-            );
-
-
-        const errorMessage =
-            document.getElementById(
-                "errorMessage"
-            );
-
-
-        const pageInfo =
-            document.getElementById(
-                "pageInfo"
-            );
-
-
-        const previous =
-            document.getElementById(
-                "previous"
-            );
-
-
-        const next =
-            document.getElementById(
-                "next"
-            );
-
-
-        const zoomIn =
-            document.getElementById(
-                "zoomIn"
-            );
-
-
-        const zoomOut =
-            document.getElementById(
-                "zoomOut"
-            );
-
-
-        const darkMode =
-            document.getElementById(
-                "darkMode"
-            );
-
-
-        const fullscreen =
-            document.getElementById(
-                "fullscreen"
-            );
-
-
-        const protectedScreen =
-            document.getElementById(
-                "protectedScreen"
-            );
-
-
-
-        // =====================================================
-        // VARIABLES
-        // =====================================================
-
-        let pdf = null;
-
-        let currentPage = 1;
-
-        let totalPages = 0;
-
-        let scale = 1.3;
-
-        let dark = false;
-
-
-
-        // =====================================================
-        // CHECK BOOK
-        // =====================================================
-
-        if (!book) {
-
-            showError(
-                "Book not found."
-            );
-
-        }
-
-        else {
-
-            bookTitle.textContent =
-                book.title;
-
-            openPDF();
-
-        }
-
-
-
-        // =====================================================
-        // OPEN PDF
-        // =====================================================
-
-        async function openPDF() {
-
-            try {
-
-
-                pdf =
-                    await pdfjsLib.getDocument(
-                        book.pdf
-                    ).promise;
-
-
-                totalPages =
-                    pdf.numPages;
-
-
-                loading.classList.add(
-                    "hidden"
-                );
-
-
-                // Render first page
-
-                await renderPage(
-                    1
-                );
-
-
-                pageInfo.textContent =
-                    "1 / " +
-                    totalPages;
-
-
-
-                // Restore previous page
-
-                const savedPage =
-                    Number(
-                        localStorage.getItem(
-                            "pdf-page-" +
-                            book.id
-                        )
-                    );
-
-
-                if (
-
-                    savedPage &&
-
-                    savedPage >= 1 &&
-
-                    savedPage <= totalPages
-
-                ) {
-
-                    currentPage =
-                        savedPage;
-
-
-                    await renderPage(
-                        currentPage
-                    );
-
-                }
-
-
-            }
-
-            catch (err) {
-
-                console.error(err);
-
-
-                showError(
-                    "Could not open the PDF. Check that the PDF exists in your books folder."
-                );
-
-            }
-
-        }
-
-
-
-        // =====================================================
-        // STRONG CANVAS WATERMARK
-        // =====================================================
-
-        function addWatermark(
-            ctx,
-            canvas
+        if (
+            savedPage &&
+            savedPage >= 1 &&
+            savedPage <= totalPages
         ) {
-
-
-            const width =
-                canvas.width;
-
-
-            const height =
-                canvas.height;
-
-
-
-            // Save current canvas state
-
-            ctx.save();
-
-
-
-            // ================================================
-            // DIAGONAL WATERMARK
-            // ================================================
-
-            ctx.globalAlpha =
-                0.18;
-
-
-            ctx.fillStyle =
-                "#000000";
-
-
-            const fontSize =
-                Math.max(
-                    20,
-                    width / 32
-                );
-
-
-            ctx.font =
-                "bold " +
-                fontSize +
-                "px Arial";
-
-
-            ctx.textAlign =
-                "center";
-
-
-            ctx.textBaseline =
-                "middle";
-
-
-
-            // Move to center
-
-            ctx.translate(
-                width / 2,
-                height / 2
-            );
-
-
-            // Rotate watermark
-
-            ctx.rotate(
-                -30 *
-                Math.PI /
-                180
-            );
-
-
-
-            const spacingX =
-                Math.max(
-                    350,
-                    width * 0.55
-                );
-
-
-            const spacingY =
-                Math.max(
-                    130,
-                    height * 0.18
-                );
-
-
-
-            // Repeat watermark
-
-            for (
-
-                let y =
-                    -height;
-
-                y <
-                    height;
-
-                y +=
-                    spacingY
-
-            ) {
-
-
-                for (
-
-                    let x =
-                        -width;
-
-                    x <
-                        width;
-
-                    x +=
-                        spacingX
-
-                ) {
-
-
-                    ctx.fillText(
-
-                        "© MoneshSys • PROTECTED EBOOK",
-
-                        x,
-
-                        y
-
-                    );
-
-                }
-
-            }
-
-
-
-            ctx.restore();
-
-
-
-            // ================================================
-            // CENTER WATERMARK
-            // ================================================
-
-            ctx.save();
-
-
-            ctx.globalAlpha =
-                0.24;
-
-
-            ctx.fillStyle =
-                "#000000";
-
-
-            ctx.font =
-                "bold " +
-                Math.max(
-                    18,
-                    width / 38
-                ) +
-                "px Arial";
-
-
-            ctx.textAlign =
-                "center";
-
-
-            ctx.textBaseline =
-                "middle";
-
-
-            ctx.fillText(
-
-                "🔒 MONESHSYS • PROTECTED",
-
-                width / 2,
-
-                height / 2
-
-            );
-
-
-            ctx.restore();
-
-
-
-            // ================================================
-            // BOTTOM WATERMARK
-            // ================================================
-
-            ctx.save();
-
-
-            ctx.globalAlpha =
-                0.28;
-
-
-            ctx.fillStyle =
-                "#000000";
-
-
-            ctx.font =
-                "bold " +
-                Math.max(
-                    14,
-                    width / 50
-                ) +
-                "px Arial";
-
-
-            ctx.textAlign =
-                "center";
-
-
-            ctx.fillText(
-
-                "© MoneshSys • Unauthorized copying prohibited",
-
-                width / 2,
-
-                height - 30
-
-            );
-
-
-            ctx.restore();
-
-        }
-
-
-
-        // =====================================================
-        // RENDER PAGE
-        // =====================================================
-
-        async function renderPage(
-            pageNumber
-        ) {
-
-
-            const page =
-                await pdf.getPage(
-                    pageNumber
-                );
-
-
-            const viewport =
-                page.getViewport({
-                    scale: scale
-                });
-
-
-
-            const canvas =
-                document.createElement(
-                    "canvas"
-                );
-
-
-            const context =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            canvas.className =
-                "page";
-
-
-
-            canvas.width =
-                viewport.width;
-
-
-            canvas.height =
-                viewport.height;
-
-
-
-            // Prevent dragging
-
-            canvas.draggable =
-                false;
-
-
-
-            // Clear old page
-
-            container.innerHTML =
-                "";
-
-
-            container.appendChild(
-                canvas
-            );
-
-
-
-            // =================================================
-            // RENDER ORIGINAL PDF
-            // =================================================
-
-            await page.render({
-
-                canvasContext:
-                    context,
-
-                viewport:
-                    viewport
-
-            }).promise;
-
-
-
-            // =================================================
-            // APPLY WATERMARK DIRECTLY TO CANVAS
-            // =================================================
-
-            addWatermark(
-                context,
-                canvas
-            );
-
-
-
-            // Update page
 
             currentPage =
-                pageNumber;
+                savedPage;
 
-
-            pageInfo.textContent =
-
-                currentPage +
-                " / " +
-                totalPages;
-
-
-
-            // Save reading position
-
-            localStorage.setItem(
-
-                "pdf-page-" +
-                book.id,
-
+            await renderPage(
                 currentPage
-
             );
-
-
-
-            // Update buttons
-
-            previous.disabled =
-
-                currentPage <= 1;
-
-
-            next.disabled =
-
-                currentPage >= totalPages;
 
         }
 
+    } catch (err) {
 
+        console.error(err);
 
-        // =====================================================
-        // NEXT
-        // =====================================================
-
-        next.addEventListener(
-
-            "click",
-
-            function() {
-
-
-                if (
-
-                    currentPage <
-                    totalPages
-
-                ) {
-
-
-                    renderPage(
-
-                        currentPage +
-                        1
-
-                    );
-
-                }
-
-            }
-
+        showError(
+            "Could not open the PDF. Check that the PDF exists in your books folder."
         );
 
+    }
+}
 
 
-        // =====================================================
-        // PREVIOUS
-        // =====================================================
+/* =====================================================
+   WATERMARK
+===================================================== */
 
-        previous.addEventListener(
+function addWatermark(
+    ctx,
+    canvas
+) {
 
-            "click",
+    const width =
+        canvas.width;
 
-            function() {
+    const height =
+        canvas.height;
 
 
-                if (
+    ctx.save();
 
-                    currentPage >
-                    1
 
-                ) {
+    /*
+       Repeated diagonal watermark
+    */
 
+    ctx.globalAlpha =
+        0.18;
 
-                    renderPage(
+    ctx.fillStyle =
+        "#555";
 
-                        currentPage -
-                        1
+    ctx.font =
+        "bold 28px Arial";
 
-                    );
+    ctx.textAlign =
+        "center";
 
-                }
+    ctx.textBaseline =
+        "middle";
 
-            }
 
-        );
+    ctx.translate(
+        width / 2,
+        height / 2
+    );
 
+    ctx.rotate(
+        -Math.PI / 5
+    );
 
 
-        // =====================================================
-        // ZOOM IN
-        // =====================================================
+    const spacingX = 420;
+    const spacingY = 180;
 
-        zoomIn.addEventListener(
 
-            "click",
+    for (
+        let y = -height * 2;
+        y < height * 2;
+        y += spacingY
+    ) {
 
-            function() {
-
-
-                if (
-
-                    scale <
-                    2.5
-
-                ) {
-
-
-                    scale +=
-                        0.2;
-
-
-                    renderPage(
-                        currentPage
-                    );
-
-                }
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // ZOOM OUT
-        // =====================================================
-
-        zoomOut.addEventListener(
-
-            "click",
-
-            function() {
-
-
-                if (
-
-                    scale >
-                    0.7
-
-                ) {
-
-
-                    scale -=
-                        0.2;
-
-
-                    renderPage(
-                        currentPage
-                    );
-
-                }
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // DARK MODE
-        // =====================================================
-
-        darkMode.addEventListener(
-
-            "click",
-
-            function() {
-
-
-                dark =
-                    !dark;
-
-
-                if (dark) {
-
-
-                    document.body.style.background =
-                        "#181818";
-
-
-                    container.style.background =
-                        "#181818";
-
-
-                    darkMode.textContent =
-                        "☀";
-
-                }
-
-                else {
-
-
-                    document.body.style.background =
-                        "#222";
-
-
-                    container.style.background =
-                        "#525659";
-
-
-                    darkMode.textContent =
-                        "☾";
-
-                }
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // FULLSCREEN
-        // =====================================================
-
-        fullscreen.addEventListener(
-
-            "click",
-
-            async function() {
-
-
-                try {
-
-
-                    if (
-
-                        !document.fullscreenElement
-
-                    ) {
-
-
-                        await document
-                            .documentElement
-                            .requestFullscreen();
-
-                    }
-
-                    else {
-
-
-                        await document
-                            .exitFullscreen();
-
-                    }
-
-
-                }
-
-                catch (err) {
-
-                    console.log(err);
-
-                }
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // KEYBOARD NAVIGATION
-        // =====================================================
-
-        document.addEventListener(
-
-            "keydown",
-
-            function(event) {
-
-
-                // Next page
-
-                if (
-
-                    event.key ===
-                    "ArrowRight"
-
-                ) {
-
-
-                    if (
-
-                        currentPage <
-                        totalPages
-
-                    ) {
-
-
-                        renderPage(
-
-                            currentPage +
-                            1
-
-                        );
-
-                    }
-
-                }
-
-
-
-                // Previous page
-
-                if (
-
-                    event.key ===
-                    "ArrowLeft"
-
-                ) {
-
-
-                    if (
-
-                        currentPage >
-                        1
-
-                    ) {
-
-
-                        renderPage(
-
-                            currentPage -
-                            1
-
-                        );
-
-                    }
-
-                }
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // ERROR
-        // =====================================================
-
-        function showError(
-            message
+        for (
+            let x = -width * 2;
+            x < width * 2;
+            x += spacingX
         ) {
 
-
-            loading.classList.add(
-                "hidden"
+            ctx.fillText(
+                "© MONESHSYS • PROTECTED EBOOK",
+                x,
+                y
             );
 
+        }
 
-            errorMessage.textContent =
-                message;
+    }
 
 
-            error.style.display =
-                "flex";
+    ctx.restore();
+
+
+    /*
+       Center protection stamp
+    */
+
+    ctx.save();
+
+    ctx.globalAlpha =
+        0.20;
+
+    ctx.fillStyle =
+        "#444";
+
+    ctx.font =
+        "bold 34px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        "🔒 MONESHSYS • PROTECTED",
+        width / 2,
+        height / 2
+    );
+
+    ctx.restore();
+
+
+    /*
+       Bottom copyright
+    */
+
+    ctx.save();
+
+    ctx.globalAlpha =
+        0.55;
+
+    ctx.fillStyle =
+        "#555";
+
+    ctx.font =
+        "bold 16px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        "© MoneshSys • Unauthorized copying prohibited",
+        width / 2,
+        height - 30
+    );
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   RENDER PAGE
+===================================================== */
+
+async function renderPage(
+    pageNumber
+) {
+
+    if (!pdf) {
+        return;
+    }
+
+
+    const page =
+        await pdf.getPage(
+            pageNumber
+        );
+
+
+    const viewport =
+        page.getViewport({
+            scale: scale
+        });
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    const context =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    canvas.className =
+        "page";
+
+
+    canvas.width =
+        viewport.width;
+
+
+    canvas.height =
+        viewport.height;
+
+
+    /*
+       Clear old page
+    */
+
+    container.innerHTML =
+        "";
+
+
+    container.appendChild(
+        canvas
+    );
+
+
+    /*
+       Render PDF
+    */
+
+    await page.render({
+
+        canvasContext:
+            context,
+
+        viewport:
+            viewport
+
+    }).promise;
+
+
+    /*
+       IMPORTANT:
+       Watermark becomes part
+       of the actual canvas pixels.
+    */
+
+    addWatermark(
+        context,
+        canvas
+    );
+
+
+    currentPage =
+        pageNumber;
+
+
+    pageInfo.textContent =
+        currentPage +
+        " / " +
+        totalPages;
+
+
+    localStorage.setItem(
+        "pdf-page-" +
+        book.id,
+        currentPage
+    );
+
+
+    previous.disabled =
+        currentPage <= 1;
+
+
+    next.disabled =
+        currentPage >= totalPages;
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+next.addEventListener(
+    "click",
+    function() {
+
+        if (
+            currentPage <
+            totalPages
+        ) {
+
+            renderPage(
+                currentPage + 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+previous.addEventListener(
+    "click",
+    function() {
+
+        if (
+            currentPage > 1
+        ) {
+
+            renderPage(
+                currentPage - 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ZOOM IN
+===================================================== */
+
+zoomIn.addEventListener(
+    "click",
+    function() {
+
+        if (
+            scale < 2.5
+        ) {
+
+            scale += 0.2;
+
+            renderPage(
+                currentPage
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ZOOM OUT
+===================================================== */
+
+zoomOut.addEventListener(
+    "click",
+    function() {
+
+        if (
+            scale > 0.7
+        ) {
+
+            scale -= 0.2;
+
+            renderPage(
+                currentPage
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+let dark = false;
+
+darkMode.addEventListener(
+    "click",
+    function() {
+
+        dark =
+            !dark;
+
+
+        if (dark) {
+
+            document.body.style.background =
+                "#181818";
+
+            container.style.background =
+                "#181818";
+
+            darkMode.textContent =
+                "☀";
+
+        } else {
+
+            document.body.style.background =
+                "#222";
+
+            container.style.background =
+                "#525659";
+
+            darkMode.textContent =
+                "☾";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FULLSCREEN
+===================================================== */
+
+fullscreen.addEventListener(
+    "click",
+    async function() {
+
+        try {
+
+            if (
+                !document.fullscreenElement
+            ) {
+
+                await document.documentElement
+                    .requestFullscreen();
+
+            } else {
+
+                await document.exitFullscreen();
+
+            }
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   PAGE KEYBOARD NAVIGATION
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            if (
+                currentPage <
+                totalPages
+            ) {
+
+                renderPage(
+                    currentPage + 1
+                );
+
+            }
 
         }
 
 
+        if (
+            event.key === "ArrowLeft"
+        ) {
 
-        // =====================================================
-        // BASIC UI PROTECTION
-        // =====================================================
+            if (
+                currentPage > 1
+            ) {
 
-        // Disable right click
-
-        document.addEventListener(
-
-            "contextmenu",
-
-            function(event) {
-
-                event.preventDefault();
+                renderPage(
+                    currentPage - 1
+                );
 
             }
 
-        );
+        }
+
+    }
+);
 
 
+/* =====================================================
+   PROTECTED SCREEN
+===================================================== */
 
-        // Disable copy
+function showProtectedScreen() {
 
-        document.addEventListener(
+    protectedMode = true;
 
-            "copy",
+    protectedScreen.style.display =
+        "flex";
 
-            function(event) {
+    container.style.visibility =
+        "hidden";
 
-                event.preventDefault();
+    document.querySelector(
+        ".bottom"
+    ).style.visibility =
+        "hidden";
 
-            }
+    document.querySelector(
+        ".header"
+    ).style.visibility =
+        "hidden";
 
-        );
-
-
-
-        // Disable cut
-
-        document.addEventListener(
-
-            "cut",
-
-            function(event) {
-
-                event.preventDefault();
-
-            }
-
-        );
+}
 
 
+/* =====================================================
+   RESTORE SCREEN
+===================================================== */
 
-        // Disable text selection
+function hideProtectedScreen() {
 
-        document.addEventListener(
+    protectedMode = false;
 
-            "selectstart",
+    protectedScreen.style.display =
+        "none";
 
-            function(event) {
+    container.style.visibility =
+        "visible";
 
-                event.preventDefault();
+    document.querySelector(
+        ".bottom"
+    ).style.visibility =
+        "visible";
 
-            }
+    document.querySelector(
+        ".header"
+    ).style.visibility =
+        "visible";
 
-        );
-
-
-
-        // Disable drag
-
-        document.addEventListener(
-
-            "dragstart",
-
-            function(event) {
-
-                event.preventDefault();
-
-            }
-
-        );
+}
 
 
+/* =====================================================
+   WINDOW BLUR PROTECTION
+===================================================== */
 
-        // =====================================================
-        // BLOCK COMMON SHORTCUTS
-        // =====================================================
+window.addEventListener(
+    "blur",
+    function() {
 
-        document.addEventListener(
+        /*
+         * Hide the PDF when browser/window
+         * loses focus.
+         */
 
-            "keydown",
+        showProtectedScreen();
 
-            function(event) {
-
-
-                const key =
-                    event.key.toLowerCase();
+    }
+);
 
 
+/* =====================================================
+   VISIBILITY PROTECTION
+===================================================== */
 
-                // Ctrl / CMD shortcuts
+document.addEventListener(
+    "visibilitychange",
+    function() {
+
+        if (
+            document.hidden
+        ) {
+
+            showProtectedScreen();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FOCUS RESTORE
+===================================================== */
+
+window.addEventListener(
+    "focus",
+    function() {
+
+        setTimeout(
+            function() {
 
                 if (
-
-                    event.ctrlKey ||
-                    event.metaKey
-
+                    !document.hidden
                 ) {
 
-
-                    if (
-
-                        key === "s" ||
-
-                        key === "p" ||
-
-                        key === "c" ||
-
-                        key === "x" ||
-
-                        key === "u" ||
-
-                        key === "a"
-
-                    ) {
-
-
-                        event.preventDefault();
-
-                    }
+                    hideProtectedScreen();
 
                 }
 
+            },
+            150
+        );
+
+    }
+);
 
 
-                // Developer tools
+/* =====================================================
+   PRINT PROTECTION
+===================================================== */
 
-                if (
+window.addEventListener(
+    "beforeprint",
+    function() {
 
-                    event.key ===
-                    "F12"
+        showProtectedScreen();
 
-                ) {
-
-
-                    event.preventDefault();
-
-                }
-
+    }
+);
 
 
-                if (
+window.addEventListener(
+    "afterprint",
+    function() {
 
-                    (event.ctrlKey ||
-                     event.metaKey) &&
+        hideProtectedScreen();
 
-                    event.shiftKey &&
-
-                    (
-
-                        key === "i" ||
-
-                        key === "j" ||
-
-                        key === "c"
-
-                    )
-
-                ) {
+    }
+);
 
 
-                    event.preventDefault();
+/* =====================================================
+   RIGHT CLICK PROTECTION
+===================================================== */
 
-                }
+document.addEventListener(
+    "contextmenu",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =====================================================
+   COPY / SELECT / DRAG PROTECTION
+===================================================== */
+
+document.addEventListener(
+    "copy",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+document.addEventListener(
+    "cut",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+document.addEventListener(
+    "selectstart",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+document.addEventListener(
+    "dragstart",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =====================================================
+   KEYBOARD PROTECTION
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const key =
+            event.key.toLowerCase();
+
+
+        /*
+         * Ctrl / CMD
+         */
+
+        if (
+            event.ctrlKey ||
+            event.metaKey
+        ) {
+
+            /*
+             * Save
+             */
+
+            if (key === "s") {
+
+                event.preventDefault();
 
             }
 
-        );
+
+            /*
+             * Print
+             */
+
+            if (key === "p") {
+
+                event.preventDefault();
+
+            }
 
 
+            /*
+             * Copy
+             */
 
-        // =====================================================
-        // HIDE READER WHEN WINDOW LOSES FOCUS
-        // =====================================================
+            if (key === "c") {
 
-        let readerHidden =
-            false;
+                event.preventDefault();
 
-
-
-        function hideReader() {
+            }
 
 
-            if (readerHidden)
-                return;
+            /*
+             * Cut
+             */
+
+            if (key === "x") {
+
+                event.preventDefault();
+
+            }
 
 
-            readerHidden =
-                true;
+            /*
+             * Select all
+             */
+
+            if (key === "a") {
+
+                event.preventDefault();
+
+            }
 
 
-            container.style.visibility =
-                "hidden";
+            /*
+             * View source
+             */
 
+            if (key === "u") {
 
-            protectedScreen.style.display =
-                "flex";
+                event.preventDefault();
+
+            }
 
         }
 
 
+        /*
+         * F12
+         */
 
-        function showReader() {
+        if (
+            event.key === "F12"
+        ) {
 
-
-            if (!readerHidden)
-                return;
-
-
-            readerHidden =
-                false;
-
-
-            protectedScreen.style.display =
-                "none";
-
-
-            container.style.visibility =
-                "visible";
+            event.preventDefault();
 
         }
 
 
+        /*
+         * Developer tools
+         */
 
-        // When tab becomes hidden
+        if (
+            (event.ctrlKey ||
+             event.metaKey) &&
+            event.shiftKey &&
+            (
+                key === "i" ||
+                key === "j" ||
+                key === "c"
+            )
+        ) {
 
-        document.addEventListener(
+            event.preventDefault();
 
-            "visibilitychange",
+        }
 
-            function() {
+    }
+);
 
 
-                if (
+/* =====================================================
+   SHOW ERROR
+===================================================== */
 
-                    document.hidden
+function showError(
+    message
+) {
 
-                ) {
+    loading.classList.add(
+        "hidden"
+    );
 
-                    hideReader();
 
-                }
+    errorMessage.textContent =
+        message;
 
-                else {
 
-                    showReader();
+    error.style.display =
+        "flex";
 
-                }
+}
 
-            }
-
-        );
-
-
-
-        // When browser window loses focus
-
-        window.addEventListener(
-
-            "blur",
-
-            function() {
-
-                hideReader();
-
-            }
-
-        );
-
-
-
-        window.addEventListener(
-
-            "focus",
-
-            function() {
-
-                showReader();
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // PRINT PROTECTION
-        // =====================================================
-
-        window.addEventListener(
-
-            "beforeprint",
-
-            function() {
-
-                hideReader();
-
-            }
-
-        );
-
-
-        window.addEventListener(
-
-            "afterprint",
-
-            function() {
-
-                showReader();
-
-            }
-
-        );
-
-
-
-        // =====================================================
-        // PREVENT CANVAS DRAGGING
-        // =====================================================
-
-        document.addEventListener(
-
-            "mousedown",
-
-            function(event) {
-
-
-                if (
-
-                    event.target.tagName ===
-                    "CANVAS"
-
-                ) {
-
-                    event.preventDefault();
-
-                }
-
-            }
-
-        );
-
-
-
-    </script>
-
+</script>
 
 </body>
-
 </html>
