@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -8,18 +7,562 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
+
+    <meta
+        name="description"
+        content="Monesh Ebooks - Discover stories, programming books, educational guides and more."
     >
 
     <title>Monesh Ebooks</title>
 
     <link rel="stylesheet" href="css/style.css">
 
+    <style>
+
+        /* ================================
+           MOBILE-FIRST HOME PAGE
+        ================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f7f7f5;
+            color: #111;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 14px 18px;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+
+        .brand b {
+            font-weight: 900;
+        }
+
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #111;
+            color: white;
+
+            border-radius: 12px;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* ================================
+           NAVIGATION
+        ================================= */
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+
+        .nav a {
+            display: none;
+
+            padding: 9px 12px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            color: #555;
+
+            transition: 0.2s ease;
+        }
+
+
+        .nav a:hover {
+            background: #f0f0f0;
+            color: #111;
+        }
+
+
+        /* Show only important mobile links */
+
+        .nav a:nth-child(1),
+        .nav a:nth-child(2) {
+            display: block;
+        }
+
+
+        /* ================================
+           HERO
+        ================================= */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 520px;
+
+            display: flex;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    #dedede 0,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 0% 90%,
+                    #e7e7e7 0,
+                    transparent 35%
+                ),
+                #f7f7f5;
+        }
+
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            right: -100px;
+            top: 80px;
+
+            border-radius: 50%;
+
+            background: #111;
+
+            opacity: 0.05;
+        }
+
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            left: -80px;
+            bottom: -70px;
+
+            border-radius: 50%;
+
+            border: 35px solid #111;
+
+            opacity: 0.04;
+        }
+
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+
+            width: 100%;
+
+            padding: 60px 22px;
+        }
+
+
+        .kicker {
+            margin: 0 0 12px;
+
+            font-size: 11px;
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            color: #777;
+        }
+
+
+        .hero h1 {
+            margin: 0;
+
+            max-width: 500px;
+
+            font-size: clamp(44px, 12vw, 76px);
+
+            line-height: 0.95;
+
+            letter-spacing: -3px;
+
+            font-weight: 900;
+        }
+
+
+        .hero p:not(.kicker) {
+            max-width: 420px;
+
+            margin: 22px 0 28px;
+
+            font-size: 16px;
+
+            line-height: 1.65;
+
+            color: #666;
+        }
+
+
+        /* ================================
+           BUTTON
+        ================================= */
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 50px;
+
+            padding: 0 22px;
+
+            border-radius: 14px;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .btn-dark {
+            background: #111;
+            color: #fff;
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.16);
+        }
+
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+
+        /* ================================
+           SECTION
+        ================================= */
+
+        .section {
+            padding: 55px 0 70px;
+
+            background: #fff;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+
+        .section-heading {
+            display: flex;
+
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .section-heading h2 {
+            margin: 0;
+
+            font-size: 30px;
+
+            letter-spacing: -1px;
+
+            line-height: 1;
+        }
+
+
+        .section-heading > a {
+            flex-shrink: 0;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            color: #555;
+        }
+
+
+        /* ================================
+           BOOK GRID
+        ================================= */
+
+        .book-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+
+        /* ================================
+           BOOK CARD
+        ================================= */
+
+        .book-grid > * {
+            min-width: 0;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .book-grid > *:active {
+            transform: scale(0.97);
+        }
+
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            padding: 30px 18px;
+
+            text-align: center;
+
+            background: #111;
+
+            color: #999;
+
+            font-size: 12px;
+        }
+
+
+        /* ================================
+           TABLET
+        ================================= */
+
+        @media (min-width: 600px) {
+
+            .header {
+                padding: 16px 28px;
+            }
+
+            .nav {
+                gap: 8px;
+            }
+
+            .nav a {
+                display: block;
+            }
+
+            .hero {
+                min-height: 600px;
+            }
+
+            .hero .container {
+                padding: 80px 35px;
+            }
+
+            .container {
+                padding-left: 28px;
+                padding-right: 28px;
+            }
+
+            .book-grid {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+
+                gap: 20px;
+            }
+
+        }
+
+
+        /* ================================
+           DESKTOP
+        ================================= */
+
+        @media (min-width: 900px) {
+
+            .header {
+                padding: 18px 50px;
+            }
+
+            .hero .container {
+                padding: 100px 50px;
+            }
+
+            .container {
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+
+            .book-grid {
+                grid-template-columns:
+                    repeat(4, minmax(0, 1fr));
+
+                gap: 24px;
+            }
+
+            .section {
+                padding-top: 80px;
+                padding-bottom: 100px;
+            }
+
+        }
+
+
+        /* ================================
+           SMALL PHONES
+        ================================= */
+
+        @media (max-width: 380px) {
+
+            .header {
+                padding: 12px 14px;
+            }
+
+            .brand {
+                font-size: 12px;
+            }
+
+            .brand-mark {
+                width: 34px;
+                height: 34px;
+            }
+
+            .nav a {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .hero .container {
+                padding: 55px 18px;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+                letter-spacing: -2px;
+            }
+
+            .hero p:not(.kicker) {
+                font-size: 14px;
+            }
+
+            .section-heading h2 {
+                font-size: 26px;
+            }
+
+            .book-grid {
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
+
+<!-- ================================
+     HEADER
+================================= -->
 
 <header class="header">
 
@@ -41,97 +584,116 @@
 
     <nav class="nav">
 
-    <a href="index.html">
-        Home
-    </a>
+        <a href="index.html">
+            Home
+        </a>
 
-    <a href="books.html">
-        Books
-    </a>
+        <a href="books.html">
+            Books
+        </a>
 
-    <a href="library.html">
-        My Library
-    </a>
+        <a href="library.html">
+            Library
+        </a>
 
-    <a href="cart.html">
-        Cart
-    </a>
+        <a href="cart.html">
+            Cart
+        </a>
 
-</nav>
+    </nav>
 
 </header>
 
 
+<!-- ================================
+     MAIN
+================================= -->
+
 <main>
 
 
-<section class="hero">
+    <!-- HERO -->
 
-    <div class="container">
+    <section class="hero">
 
-        <p class="kicker">
-            MONESH EBOOKS
-        </p>
+        <div class="container">
 
-        <h1>
-            Stories worth<br>
-            keeping.
-        </h1>
-
-        <p>
-            Discover adventures, programming books,
-            educational guides and more.
-        </p>
-
-        <a
-            href="books.html"
-            class="btn btn-dark"
-        >
-            Explore Books →
-        </a>
-
-    </div>
-
-</section>
+            <p class="kicker">
+                MONESH EBOOKS
+            </p>
 
 
-<section class="section">
+            <h1>
+                Stories worth<br>
+                keeping.
+            </h1>
 
-    <div class="container">
 
-        <div class="section-heading">
+            <p>
+                Discover adventures, programming books,
+                educational guides and more.
+            </p>
 
-            <div>
 
-                <p class="kicker">
-                    FEATURED
-                </p>
-
-                <h2>
-                    Popular books
-                </h2>
-
-            </div>
-
-            <a href="books.html">
-                View all →
+            <a
+                href="books.html"
+                class="btn btn-dark"
+            >
+                Explore Books →
             </a>
 
         </div>
 
+    </section>
 
-        <div
-            class="book-grid"
-            id="featuredBooks"
-        ></div>
 
-    </div>
 
-</section>
+    <!-- FEATURED BOOKS -->
+
+    <section class="section">
+
+        <div class="container">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="kicker">
+                        FEATURED
+                    </p>
+
+                    <h2>
+                        Popular books
+                    </h2>
+
+                </div>
+
+
+                <a href="books.html">
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div
+                class="book-grid"
+                id="featuredBooks"
+            ></div>
+
+
+        </div>
+
+    </section>
 
 
 </main>
 
+
+<!-- ================================
+     FOOTER
+================================= -->
 
 <footer class="footer">
 
@@ -139,6 +701,11 @@
 
 </footer>
 
+
+
+<!-- ================================
+     JAVASCRIPT
+================================= -->
 
 <script src="js/data.js"></script>
 
@@ -153,14 +720,21 @@ const featured =
     );
 
 
-books
-    .slice(0, 4)
-    .forEach(book => {
+if (
+    typeof books !== "undefined" &&
+    typeof createBookCard === "function"
+) {
 
-        featured.innerHTML +=
-            createBookCard(book);
+    books
+        .slice(0, 4)
+        .forEach(book => {
 
-    });
+            featured.innerHTML +=
+                createBookCard(book);
+
+        });
+
+}
 
 </script>
 
