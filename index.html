@@ -7,17 +7,12 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0"
     >
 
     <meta
         name="theme-color"
-        content="#111111"
-    >
-
-    <meta
-        name="description"
-        content="Monesh Ebooks - Discover stories, programming books, educational guides and more."
+        content="#0b0b0d"
     >
 
     <title>Monesh Ebooks</title>
@@ -26,11 +21,13 @@
 
     <style>
 
-        /* ================================
-           MOBILE-FIRST HOME PAGE
-        ================================= */
+        /* =========================
+           RESET
+        ========================= */
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -39,7 +36,6 @@
         }
 
         body {
-            margin: 0;
             font-family:
                 Inter,
                 -apple-system,
@@ -47,8 +43,9 @@
                 "Segoe UI",
                 sans-serif;
 
-            background: #f7f7f5;
+            background: #f6f6f4;
             color: #111;
+            overflow-x: hidden;
         }
 
         a {
@@ -56,42 +53,37 @@
             color: inherit;
         }
 
-        img {
-            max-width: 100%;
-            display: block;
-        }
 
-
-        /* ================================
+        /* =========================
            HEADER
-        ================================= */
+        ========================= */
 
         .header {
             position: sticky;
             top: 0;
             z-index: 1000;
 
-            width: 100%;
+            height: 72px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            padding: 14px 18px;
+            padding: 0 6%;
 
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255,255,255,0.82);
 
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
 
-            border-bottom: 1px solid #e9e9e9;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
         }
 
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 11px;
 
             font-size: 14px;
             font-weight: 800;
@@ -99,35 +91,35 @@
         }
 
 
-        .brand b {
-            font-weight: 900;
-        }
-
-
         .brand-mark {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
+            border-radius: 12px;
+
             background: #111;
             color: white;
 
-            border-radius: 12px;
-
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 900;
 
             box-shadow:
-                0 6px 18px rgba(0, 0, 0, 0.15);
+                0 8px 25px rgba(0,0,0,0.18);
         }
 
 
-        /* ================================
-           NAVIGATION
-        ================================= */
+        .brand b {
+            font-weight: 950;
+        }
+
+
+        /* =========================
+           NAV
+        ========================= */
 
         .nav {
             display: flex;
@@ -137,80 +129,73 @@
 
 
         .nav a {
-            display: none;
-
-            padding: 9px 12px;
+            padding: 10px 14px;
 
             border-radius: 10px;
 
+            color: #666;
+
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
 
-            color: #555;
-
-            transition: 0.2s ease;
+            transition: 0.25s;
         }
 
 
         .nav a:hover {
-            background: #f0f0f0;
-            color: #111;
+            background: #111;
+            color: white;
+            transform: translateY(-2px);
         }
 
 
-        /* Show only important mobile links */
-
-        .nav a:nth-child(1),
-        .nav a:nth-child(2) {
-            display: block;
-        }
-
-
-        /* ================================
+        /* =========================
            HERO
-        ================================= */
+        ========================= */
 
         .hero {
             position: relative;
 
-            overflow: hidden;
-
-            min-height: 520px;
+            min-height: 650px;
 
             display: flex;
             align-items: center;
 
+            overflow: hidden;
+
             background:
                 radial-gradient(
-                    circle at 90% 10%,
-                    #dedede 0,
-                    transparent 35%
+                    circle at 85% 20%,
+                    #d8d8d8,
+                    transparent 28%
                 ),
                 radial-gradient(
-                    circle at 0% 90%,
-                    #e7e7e7 0,
-                    transparent 35%
+                    circle at 15% 90%,
+                    #e5e5e5,
+                    transparent 30%
                 ),
-                #f7f7f5;
+                #f6f6f4;
         }
 
+
+        /* Decorative circles */
 
         .hero::before {
             content: "";
 
             position: absolute;
 
-            width: 260px;
-            height: 260px;
+            width: 420px;
+            height: 420px;
 
-            right: -100px;
+            right: -170px;
             top: 80px;
 
             border-radius: 50%;
 
             background: #111;
 
-            opacity: 0.05;
+            opacity: 0.035;
         }
 
 
@@ -219,335 +204,502 @@
 
             position: absolute;
 
-            width: 180px;
-            height: 180px;
+            width: 280px;
+            height: 280px;
 
-            left: -80px;
-            bottom: -70px;
+            left: -150px;
+            bottom: -150px;
+
+            border: 55px solid #111;
 
             border-radius: 50%;
 
-            border: 35px solid #111;
-
-            opacity: 0.04;
+            opacity: 0.035;
         }
 
 
-        .hero .container {
+        .hero-content {
             position: relative;
             z-index: 2;
 
-            width: 100%;
+            width: min(1150px, 90%);
 
-            padding: 60px 22px;
+            margin: auto;
         }
 
 
         .kicker {
-            margin: 0 0 12px;
+            display: inline-block;
 
-            font-size: 11px;
+            margin-bottom: 18px;
+
+            padding: 8px 13px;
+
+            border-radius: 100px;
+
+            background: #111;
+            color: white;
+
+            font-size: 10px;
             font-weight: 900;
 
             letter-spacing: 2px;
-
-            color: #777;
         }
 
 
         .hero h1 {
-            margin: 0;
+            max-width: 850px;
 
-            max-width: 500px;
+            font-size: clamp(
+                48px,
+                8vw,
+                100px
+            );
 
-            font-size: clamp(44px, 12vw, 76px);
+            line-height: 0.92;
 
-            line-height: 0.95;
+            letter-spacing: -5px;
 
-            letter-spacing: -3px;
-
-            font-weight: 900;
+            font-weight: 950;
         }
 
 
-        .hero p:not(.kicker) {
-            max-width: 420px;
+        .hero h1 span {
+            color: #777;
+        }
 
-            margin: 22px 0 28px;
 
-            font-size: 16px;
+        .hero-description {
+            max-width: 550px;
 
-            line-height: 1.65;
+            margin-top: 28px;
 
             color: #666;
+
+            font-size: 17px;
+
+            line-height: 1.7;
         }
 
 
-        /* ================================
-           BUTTON
-        ================================= */
+        /* =========================
+           HERO BUTTONS
+        ========================= */
+
+        .hero-buttons {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-top: 32px;
+        }
+
 
         .btn {
+            min-height: 52px;
+
             display: inline-flex;
 
             align-items: center;
             justify-content: center;
 
-            min-height: 50px;
-
-            padding: 0 22px;
+            padding: 0 23px;
 
             border-radius: 14px;
 
             font-size: 14px;
             font-weight: 800;
 
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+            transition: 0.25s;
         }
 
 
         .btn-dark {
             background: #111;
-            color: #fff;
+            color: white;
 
             box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.16);
+                0 12px 30px rgba(0,0,0,0.18);
         }
 
 
-        .btn:active {
-            transform: scale(0.96);
+        .btn-light {
+            background: white;
+            color: #111;
+
+            border: 1px solid #ddd;
         }
 
 
-        /* ================================
-           SECTION
-        ================================= */
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .hero-stats {
+            display: flex;
+
+            gap: 35px;
+
+            margin-top: 55px;
+        }
+
+
+        .stat strong {
+            display: block;
+
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+
+        .stat small {
+            color: #888;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           BOOK SECTION
+        ========================= */
 
         .section {
-            padding: 55px 0 70px;
+            padding: 90px 0;
 
-            background: #fff;
+            background: white;
         }
 
 
         .container {
-            width: 100%;
-            max-width: 1200px;
+            width: min(1150px, 90%);
 
             margin: auto;
-
-            padding-left: 18px;
-            padding-right: 18px;
         }
 
 
         .section-heading {
             display: flex;
 
-            align-items: flex-end;
+            align-items: end;
             justify-content: space-between;
 
-            gap: 15px;
-
-            margin-bottom: 25px;
+            margin-bottom: 35px;
         }
 
 
         .section-heading h2 {
-            margin: 0;
+            margin-top: 8px;
 
-            font-size: 30px;
+            font-size: clamp(
+                30px,
+                5vw,
+                48px
+            );
 
-            letter-spacing: -1px;
-
-            line-height: 1;
+            letter-spacing: -2px;
         }
 
 
         .section-heading > a {
-            flex-shrink: 0;
-
             font-size: 13px;
+
             font-weight: 800;
 
-            color: #555;
+            color: #666;
         }
 
 
-        /* ================================
+        .section-heading > a:hover {
+            color: #111;
+        }
+
+
+        /* =========================
            BOOK GRID
-        ================================= */
+        ========================= */
 
         .book-grid {
             display: grid;
 
             grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+                repeat(4, 1fr);
 
-            gap: 14px;
+            gap: 22px;
         }
 
-
-        /* ================================
-           BOOK CARD
-        ================================= */
 
         .book-grid > * {
             min-width: 0;
 
-            border-radius: 18px;
+            border-radius: 20px;
 
             overflow: hidden;
 
             transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
+                transform .3s ease,
+                box-shadow .3s ease;
         }
 
 
-        .book-grid > *:active {
-            transform: scale(0.97);
+        .book-grid > *:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 18px 40px rgba(0,0,0,0.12);
         }
 
 
-        /* ================================
+        /* =========================
            FOOTER
-        ================================= */
+        ========================= */
 
         .footer {
-            padding: 30px 18px;
+            padding: 35px 20px;
+
+            background: #0b0b0d;
+
+            color: #777;
 
             text-align: center;
-
-            background: #111;
-
-            color: #999;
 
             font-size: 12px;
         }
 
 
-        /* ================================
+        /* =========================
            TABLET
-        ================================= */
+        ========================= */
 
-        @media (min-width: 600px) {
+        @media (max-width: 900px) {
 
             .header {
-                padding: 16px 28px;
-            }
-
-            .nav {
-                gap: 8px;
-            }
-
-            .nav a {
-                display: block;
+                padding: 0 25px;
             }
 
             .hero {
-                min-height: 600px;
-            }
-
-            .hero .container {
-                padding: 80px 35px;
-            }
-
-            .container {
-                padding-left: 28px;
-                padding-right: 28px;
-            }
-
-            .book-grid {
-                grid-template-columns:
-                    repeat(3, minmax(0, 1fr));
-
-                gap: 20px;
-            }
-
-        }
-
-
-        /* ================================
-           DESKTOP
-        ================================= */
-
-        @media (min-width: 900px) {
-
-            .header {
-                padding: 18px 50px;
-            }
-
-            .hero .container {
-                padding: 100px 50px;
-            }
-
-            .container {
-                padding-left: 50px;
-                padding-right: 50px;
-            }
-
-            .book-grid {
-                grid-template-columns:
-                    repeat(4, minmax(0, 1fr));
-
-                gap: 24px;
-            }
-
-            .section {
-                padding-top: 80px;
-                padding-bottom: 100px;
-            }
-
-        }
-
-
-        /* ================================
-           SMALL PHONES
-        ================================= */
-
-        @media (max-width: 380px) {
-
-            .header {
-                padding: 12px 14px;
-            }
-
-            .brand {
-                font-size: 12px;
-            }
-
-            .brand-mark {
-                width: 34px;
-                height: 34px;
-            }
-
-            .nav a {
-                padding: 8px;
-                font-size: 12px;
-            }
-
-            .hero .container {
-                padding: 55px 18px;
+                min-height: 580px;
             }
 
             .hero h1 {
-                font-size: 43px;
-                letter-spacing: -2px;
-            }
-
-            .hero p:not(.kicker) {
-                font-size: 14px;
-            }
-
-            .section-heading h2 {
-                font-size: 26px;
+                font-size: 70px;
             }
 
             .book-grid {
-                gap: 10px;
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                height: 64px;
+
+                padding: 0 15px;
+            }
+
+
+            .brand {
+                font-size: 11px;
+
+                letter-spacing: .7px;
+            }
+
+
+            .brand-mark {
+                width: 36px;
+                height: 36px;
+
+                border-radius: 10px;
+
+                font-size: 17px;
+            }
+
+
+            /* Mobile navigation */
+
+            .nav {
+                gap: 2px;
+            }
+
+
+            .nav a {
+                padding: 8px;
+
+                font-size: 11px;
+            }
+
+
+            .nav a:nth-child(3),
+            .nav a:nth-child(4) {
+                display: none;
+            }
+
+
+            /* Hero */
+
+            .hero {
+                min-height: 600px;
+
+                align-items: center;
+            }
+
+
+            .hero-content {
+                width: 90%;
+            }
+
+
+            .kicker {
+                font-size: 9px;
+
+                padding: 7px 11px;
+
+                margin-bottom: 16px;
+            }
+
+
+            .hero h1 {
+                font-size: clamp(
+                    48px,
+                    15vw,
+                    68px
+                );
+
+                line-height: .94;
+
+                letter-spacing: -3px;
+            }
+
+
+            .hero-description {
+                margin-top: 22px;
+
+                font-size: 14px;
+
+                line-height: 1.65;
+            }
+
+
+            .hero-buttons {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                margin-top: 28px;
+            }
+
+
+            .btn {
+                width: 100%;
+
+                min-height: 50px;
+            }
+
+
+            .hero-stats {
+                gap: 22px;
+
+                margin-top: 38px;
+            }
+
+
+            .stat strong {
+                font-size: 21px;
+            }
+
+
+            .stat small {
+                font-size: 9px;
+            }
+
+
+            /* Books */
+
+            .section {
+                padding: 60px 0;
+            }
+
+
+            .container {
+                width: 92%;
+            }
+
+
+            .section-heading {
+                align-items: end;
+
+                margin-bottom: 25px;
+            }
+
+
+            .section-heading h2 {
+                font-size: 30px;
+
+                letter-spacing: -1.5px;
+            }
+
+
+            .section-heading > a {
+                font-size: 11px;
+            }
+
+
+            .book-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+
+            .book-grid > * {
+                border-radius: 15px;
+            }
+
+        }
+
+
+        /* =========================
+           VERY SMALL PHONES
+        ========================= */
+
+        @media (max-width: 380px) {
+
+            .nav a {
+                padding: 6px;
+
+                font-size: 10px;
+            }
+
+
+            .hero h1 {
+                font-size: 47px;
+
+                letter-spacing: -2.5px;
+            }
+
+
+            .hero-stats {
+                gap: 15px;
+            }
+
+
+            .stat strong {
+                font-size: 19px;
             }
 
         }
@@ -560,9 +712,9 @@
 <body>
 
 
-<!-- ================================
+<!-- =========================
      HEADER
-================================= -->
+========================= -->
 
 <header class="header">
 
@@ -605,35 +757,36 @@
 </header>
 
 
-<!-- ================================
-     MAIN
-================================= -->
 
-<main>
+<!-- =========================
+     HERO
+========================= -->
 
+<section class="hero">
 
-    <!-- HERO -->
+    <div class="hero-content">
 
-    <section class="hero">
-
-        <div class="container">
-
-            <p class="kicker">
-                MONESH EBOOKS
-            </p>
+        <div class="kicker">
+            MONESH EBOOKS
+        </div>
 
 
-            <h1>
-                Stories worth<br>
-                keeping.
-            </h1>
+        <h1>
+            Stories worth
+            <span>keeping.</span>
+        </h1>
 
 
-            <p>
-                Discover adventures, programming books,
-                educational guides and more.
-            </p>
+        <p class="hero-description">
 
+            Discover exciting adventures,
+            programming books, educational guides
+            and stories designed to stay with you.
+
+        </p>
+
+
+        <div class="hero-buttons">
 
             <a
                 href="books.html"
@@ -642,58 +795,108 @@
                 Explore Books →
             </a>
 
+
+            <a
+                href="#featured"
+                class="btn btn-light"
+            >
+                Featured Books
+            </a>
+
         </div>
 
-    </section>
 
+        <div class="hero-stats">
 
+            <div class="stat">
 
-    <!-- FEATURED BOOKS -->
+                <strong>📚</strong>
 
-    <section class="section">
-
-        <div class="container">
-
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="kicker">
-                        FEATURED
-                    </p>
-
-                    <h2>
-                        Popular books
-                    </h2>
-
-                </div>
-
-
-                <a href="books.html">
-                    View all →
-                </a>
+                <small>
+                    Digital Books
+                </small>
 
             </div>
 
 
-            <div
-                class="book-grid"
-                id="featuredBooks"
-            ></div>
+            <div class="stat">
 
+                <strong>⚡</strong>
+
+                <small>
+                    Instant Access
+                </small>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>🔒</strong>
+
+                <small>
+                    Protected Reading
+                </small>
+
+            </div>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-</main>
+
+<!-- =========================
+     FEATURED BOOKS
+========================= -->
+
+<section
+    class="section"
+    id="featured"
+>
+
+    <div class="container">
 
 
-<!-- ================================
+        <div class="section-heading">
+
+            <div>
+
+                <p class="kicker">
+                    FEATURED
+                </p>
+
+                <h2>
+                    Popular books
+                </h2>
+
+            </div>
+
+
+            <a href="books.html">
+                View all →
+            </a>
+
+        </div>
+
+
+        <div
+            class="book-grid"
+            id="featuredBooks"
+        ></div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
      FOOTER
-================================= -->
+========================= -->
 
 <footer class="footer">
 
@@ -703,9 +906,9 @@
 
 
 
-<!-- ================================
+<!-- =========================
      JAVASCRIPT
-================================= -->
+========================= -->
 
 <script src="js/data.js"></script>
 
