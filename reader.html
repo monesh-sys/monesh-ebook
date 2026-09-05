@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +19,10 @@
             box-sizing: border-box;
         }
 
+
         html,
         body {
+
             margin: 0;
             padding: 0;
 
@@ -33,12 +34,6 @@
             font-family: Arial, sans-serif;
 
             background: #222;
-
-            /* Security */
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
 
@@ -65,9 +60,7 @@
             position: fixed;
 
             top: 0;
-
             left: 0;
-
             right: 0;
 
             z-index: 1000;
@@ -137,8 +130,6 @@
             border-radius: 6px;
 
             cursor: pointer;
-
-            user-select: none;
         }
 
 
@@ -184,10 +175,9 @@
 
             text-align: center;
 
-            /* Security */
             user-select: none;
+
             -webkit-user-select: none;
-            pointer-events: auto;
         }
 
 
@@ -205,95 +195,47 @@
 
             max-width: 100%;
 
-            /* Security */
             user-select: none;
+
             -webkit-user-select: none;
 
-            /* Prevent dragging canvas */
             -webkit-user-drag: none;
         }
 
 
         /* =========================
-           SECURITY WATERMARK
+           WATERMARK NOTICE
         ========================= */
 
-        #securityWatermark {
+        .protection-notice {
 
             position: fixed;
 
-            top: 50%;
+            bottom: 65px;
 
             left: 50%;
 
-            transform:
-                translate(-50%, -50%)
-                rotate(-25deg);
+            transform: translateX(-50%);
 
-            font-size: 30px;
+            z-index: 900;
+
+            background: rgba(0, 0, 0, .75);
+
+            color: rgba(255, 255, 255, .95);
+
+            padding: 7px 18px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
 
             font-weight: bold;
-
-            color:
-                rgba(255, 255, 255, 0.10);
 
             pointer-events: none;
 
             user-select: none;
 
-            z-index: 9000;
-
             white-space: nowrap;
-        }
-
-
-        /* =========================
-           SECURITY SCREEN
-        ========================= */
-
-        #securityScreen {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: #111;
-
-            color: white;
-
-            display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 30px;
-
-            z-index: 99999;
-        }
-
-
-        .security-box {
-
-            max-width: 450px;
-        }
-
-
-        .security-box h2 {
-
-            font-size: 28px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .security-box p {
-
-            color: #aaa;
-
-            line-height: 1.6;
         }
 
 
@@ -404,9 +346,7 @@
             to {
 
                 transform: rotate(360deg);
-
             }
-
         }
 
 
@@ -477,6 +417,56 @@
 
 
         /* =========================
+           PROTECTED SCREEN
+        ========================= */
+
+        #protectedScreen {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: #111;
+
+            color: white;
+
+            z-index: 7000;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+
+        #protectedScreen .protected-box {
+
+            max-width: 450px;
+        }
+
+
+        #protectedScreen h1 {
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+        }
+
+
+        #protectedScreen p {
+
+            color: #aaa;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
            MOBILE
         ========================= */
 
@@ -524,12 +514,14 @@
             }
 
 
-            #securityWatermark {
+            .protection-notice {
 
-                font-size: 18px;
+                bottom: 60px;
 
+                font-size: 10px;
+
+                padding: 6px 12px;
             }
-
         }
 
     </style>
@@ -540,800 +532,481 @@
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-<header class="header">
-
-
-    <div class="left">
-
-        <a
-            href="library.html"
-            class="back"
-        >
-            ← Library
-        </a>
+    <header class="header">
 
 
-        <div
-            id="bookTitle"
-            class="title"
-        >
-            Loading...
+        <div class="left">
+
+
+            <a
+                href="library.html"
+                class="back"
+            >
+                ← Library
+            </a>
+
+
+            <div
+                id="bookTitle"
+                class="title"
+            >
+                Loading...
+            </div>
+
+
         </div>
 
+
+        <div class="controls">
+
+
+            <button
+                id="zoomOut"
+                class="control"
+                title="Zoom out"
+            >
+                −
+            </button>
+
+
+            <button
+                id="zoomIn"
+                class="control"
+                title="Zoom in"
+            >
+                +
+            </button>
+
+
+            <button
+                id="darkMode"
+                class="control"
+                title="Dark mode"
+            >
+                ☾
+            </button>
+
+
+            <button
+                id="fullscreen"
+                class="control"
+                title="Fullscreen"
+            >
+                ⛶
+            </button>
+
+
+        </div>
+
+
+    </header>
+
+
+    <!-- =========================
+         PDF
+    ========================= -->
+
+    <main id="pdfContainer"></main>
+
+
+    <!-- =========================
+         WATERMARK NOTICE
+    ========================= -->
+
+    <div class="protection-notice">
+
+        🔒 PROTECTED • © MoneshSys
+
     </div>
 
 
-    <div class="controls">
+    <!-- =========================
+         BOTTOM
+    ========================= -->
+
+    <div class="bottom">
+
 
         <button
-            id="zoomOut"
-            class="control"
-            title="Zoom out"
+            id="previous"
+            class="nav"
         >
-            −
+            ← Previous
         </button>
 
 
-        <button
-            id="zoomIn"
-            class="control"
-            title="Zoom in"
-        >
-            +
-        </button>
+        <div id="pageInfo">
+
+            Loading...
+
+        </div>
 
 
         <button
-            id="darkMode"
-            class="control"
-            title="Dark mode"
+            id="next"
+            class="nav"
         >
-            ☾
+            Next →
+
         </button>
 
 
-        <button
-            id="fullscreen"
-            class="control"
-            title="Fullscreen"
-        >
-            ⛶
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================
-     PDF
-========================= -->
-
-<main id="pdfContainer"></main>
-
-
-
-<!-- =========================
-     SECURITY WATERMARK
-========================= -->
-
-<div id="securityWatermark">
-
-    © MoneshSys — Protected Ebook
-
-</div>
-
-
-
-<!-- =========================
-     SECURITY SCREEN
-========================= -->
-
-<div id="securityScreen">
-
-    <div class="security-box">
-
-        <h2>🔒 Protected Reader</h2>
-
-        <p>
-            The ebook is protected.
-            Return to the reader to continue reading.
-        </p>
-
-    </div>
-
-</div>
-
-
-
-<!-- =========================
-     BOTTOM
-========================= -->
-
-<div class="bottom">
-
-
-    <button
-        id="previous"
-        class="nav"
-    >
-        ← Previous
-    </button>
-
-
-    <div id="pageInfo">
-        Loading...
     </div>
 
 
-    <button
-        id="next"
-        class="nav"
-    >
-        Next →
-    </button>
+    <!-- =========================
+         LOADING
+    ========================= -->
 
-</div>
+    <div id="loading">
 
 
-
-<!-- =========================
-     LOADING
-========================= -->
-
-<div id="loading">
-
-    <div class="spinner"></div>
-
-    <div>
-        Opening ebook...
-    </div>
-
-</div>
+        <div class="spinner"></div>
 
 
+        <div>
+            Opening ebook...
+        </div>
 
-<!-- =========================
-     ERROR
-========================= -->
-
-<div id="error">
-
-    <div class="error-box">
-
-        <h1>
-            Unable to open ebook
-        </h1>
-
-        <p id="errorMessage">
-            Something went wrong.
-        </p>
-
-        <a href="library.html">
-            Back to Library
-        </a>
 
     </div>
 
-</div>
 
+    <!-- =========================
+         ERROR
+    ========================= -->
 
+    <div id="error">
 
-<!-- =========================
-     BOOK DATA
-========================= -->
 
-<script src="js/data.js"></script>
+        <div class="error-box">
 
 
+            <h1>
+                Unable to open ebook
+            </h1>
 
-<!-- =========================
-     PDF.JS
-========================= -->
 
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
-></script>
+            <p id="errorMessage">
 
+                Something went wrong.
 
+            </p>
 
-<script>
 
+            <a href="library.html">
 
-// =====================================================
-// PDF.JS WORKER
-// =====================================================
+                Back to Library
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+            </a>
 
 
+        </div>
 
-// =====================================================
-// GET BOOK ID
-// =====================================================
 
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
+    </div>
 
 
-const bookId =
-    Number(
-        params.get("id")
-    );
+    <!-- =========================
+         PROTECTED SCREEN
+    ========================= -->
 
+    <div id="protectedScreen">
 
 
-// =====================================================
-// FIND BOOK
-// =====================================================
+        <div class="protected-box">
 
-const book =
-    books.find(
-        item =>
-            Number(item.id) === bookId
-    );
 
+            <h1>
+                🔒 Protected Reader
+            </h1>
 
 
-// =====================================================
-// ELEMENTS
-// =====================================================
+            <p>
 
-const container =
-    document.getElementById(
-        "pdfContainer"
-    );
+                The ebook is temporarily hidden
+                because the reader window is not active.
 
+            </p>
 
-const bookTitle =
-    document.getElementById(
-        "bookTitle"
-    );
 
+            <p>
 
-const loading =
-    document.getElementById(
-        "loading"
-    );
+                Return to this reader to continue reading.
 
+            </p>
 
-const error =
-    document.getElementById(
-        "error"
-    );
 
+        </div>
 
-const errorMessage =
-    document.getElementById(
-        "errorMessage"
-    );
 
+    </div>
 
-const pageInfo =
-    document.getElementById(
-        "pageInfo"
-    );
 
 
-const previous =
-    document.getElementById(
-        "previous"
-    );
+    <!-- =========================
+         BOOK DATA
+    ========================= -->
 
+    <script src="js/data.js"></script>
 
-const next =
-    document.getElementById(
-        "next"
-    );
 
 
-const zoomIn =
-    document.getElementById(
-        "zoomIn"
-    );
+    <!-- =========================
+         PDF.JS
+    ========================= -->
 
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+    ></script>
 
-const zoomOut =
-    document.getElementById(
-        "zoomOut"
-    );
 
 
-const darkMode =
-    document.getElementById(
-        "darkMode"
-    );
+    <script>
 
 
-const fullscreen =
-    document.getElementById(
-        "fullscreen"
-    );
+        // =====================================================
+        // PDF.JS WORKER
+        // =====================================================
 
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-const securityScreen =
-    document.getElementById(
-        "securityScreen"
-    );
 
 
+        // =====================================================
+        // GET BOOK ID
+        // =====================================================
 
-// =====================================================
-// VARIABLES
-// =====================================================
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
-let pdf = null;
 
-let currentPage = 1;
-
-let totalPages = 0;
-
-let scale = 1.3;
-
-let dark = false;
-
-
-
-// =====================================================
-// CHECK BOOK
-// =====================================================
-
-if (!book) {
-
-    showError(
-        "Book not found."
-    );
-
-} else {
-
-    bookTitle.textContent =
-        book.title;
-
-    openPDF();
-
-}
-
-
-
-// =====================================================
-// OPEN PDF
-// =====================================================
-
-async function openPDF() {
-
-    try {
-
-        /*
-         * PDF is loaded from data.js.
-         */
-
-        pdf =
-            await pdfjsLib.getDocument(
-                book.pdf
-            ).promise;
-
-
-        totalPages =
-            pdf.numPages;
-
-
-        loading.classList.add(
-            "hidden"
-        );
-
-
-        /*
-         * Render first page.
-         */
-
-        await renderPage(
-            1
-        );
-
-
-        pageInfo.textContent =
-            "1 / " + totalPages;
-
-
-        /*
-         * Restore previous page.
-         */
-
-        const savedPage =
+        const bookId =
             Number(
-                localStorage.getItem(
-                    "pdf-page-" +
-                    book.id
-                )
+                params.get("id")
             );
 
 
-        if (
-            savedPage &&
-            savedPage >= 1 &&
-            savedPage <= totalPages
-        ) {
 
-            currentPage =
-                savedPage;
+        // =====================================================
+        // FIND BOOK
+        // =====================================================
 
-            await renderPage(
-                currentPage
-            );
-
-        }
-
-
-    } catch (err) {
-
-        console.error(err);
-
-        showError(
-            "Could not open the PDF. Check that the PDF exists in your books folder."
-        );
-
-    }
-
-}
-
-
-
-// =====================================================
-// RENDER PAGE
-// =====================================================
-
-async function renderPage(
-    pageNumber
-) {
-
-    try {
-
-        const page =
-            await pdf.getPage(
-                pageNumber
+        const book =
+            books.find(
+                item =>
+                    Number(item.id) === bookId
             );
 
 
-        const viewport =
-            page.getViewport({
-                scale: scale
-            });
 
+        // =====================================================
+        // ELEMENTS
+        // =====================================================
 
-        const canvas =
-            document.createElement(
-                "canvas"
+        const container =
+            document.getElementById(
+                "pdfContainer"
             );
 
 
-        const context =
-            canvas.getContext(
-                "2d"
+        const bookTitle =
+            document.getElementById(
+                "bookTitle"
             );
 
 
-        canvas.className =
-            "page";
-
-
-        canvas.width =
-            viewport.width;
-
-
-        canvas.height =
-            viewport.height;
-
-
-        /*
-         * Security attributes.
-         */
-
-        canvas.setAttribute(
-            "draggable",
-            "false"
-        );
-
-
-        canvas.addEventListener(
-            "contextmenu",
-            function(event) {
-
-                event.preventDefault();
-
-            }
-        );
-
-
-        canvas.addEventListener(
-            "dragstart",
-            function(event) {
-
-                event.preventDefault();
-
-            }
-        );
-
-
-        /*
-         * Clear old page.
-         */
-
-        container.innerHTML =
-            "";
-
-
-        container.appendChild(
-            canvas
-        );
-
-
-        /*
-         * Render current page.
-         */
-
-        await page.render({
-
-            canvasContext:
-                context,
-
-            viewport:
-                viewport
-
-        }).promise;
-
-
-        currentPage =
-            pageNumber;
-
-
-        pageInfo.textContent =
-            currentPage +
-            " / " +
-            totalPages;
-
-
-        /*
-         * Save reading position.
-         */
-
-        localStorage.setItem(
-
-            "pdf-page-" +
-            book.id,
-
-            currentPage
-
-        );
-
-
-        /*
-         * Update buttons.
-         */
-
-        previous.disabled =
-            currentPage <= 1;
-
-
-        next.disabled =
-            currentPage >= totalPages;
-
-    }
-
-    catch (err) {
-
-        console.error(err);
-
-    }
-
-}
-
-
-
-// =====================================================
-// NEXT
-// =====================================================
-
-next.addEventListener(
-    "click",
-    function() {
-
-        if (
-            currentPage <
-            totalPages
-        ) {
-
-            renderPage(
-                currentPage + 1
+        const loading =
+            document.getElementById(
+                "loading"
             );
 
-        }
 
-    }
-);
-
-
-
-// =====================================================
-// PREVIOUS
-// =====================================================
-
-previous.addEventListener(
-    "click",
-    function() {
-
-        if (
-            currentPage > 1
-        ) {
-
-            renderPage(
-                currentPage - 1
+        const error =
+            document.getElementById(
+                "error"
             );
 
-        }
 
-    }
-);
-
-
-
-// =====================================================
-// ZOOM IN
-// =====================================================
-
-zoomIn.addEventListener(
-    "click",
-    function() {
-
-        if (
-            scale < 2.5
-        ) {
-
-            scale += .2;
-
-            renderPage(
-                currentPage
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
             );
 
-        }
 
-    }
-);
-
-
-
-// =====================================================
-// ZOOM OUT
-// =====================================================
-
-zoomOut.addEventListener(
-    "click",
-    function() {
-
-        if (
-            scale > .7
-        ) {
-
-            scale -= .2;
-
-            renderPage(
-                currentPage
+        const pageInfo =
+            document.getElementById(
+                "pageInfo"
             );
 
-        }
 
-    }
-);
-
-
-
-// =====================================================
-// DARK MODE
-// =====================================================
-
-darkMode.addEventListener(
-    "click",
-    function() {
-
-        dark =
-            !dark;
+        const previous =
+            document.getElementById(
+                "previous"
+            );
 
 
-        if (dark) {
+        const next =
+            document.getElementById(
+                "next"
+            );
 
-            document.body.style.background =
-                "#181818";
 
-            container.style.background =
-                "#181818";
+        const zoomIn =
+            document.getElementById(
+                "zoomIn"
+            );
 
-            darkMode.textContent =
-                "☀";
+
+        const zoomOut =
+            document.getElementById(
+                "zoomOut"
+            );
+
+
+        const darkMode =
+            document.getElementById(
+                "darkMode"
+            );
+
+
+        const fullscreen =
+            document.getElementById(
+                "fullscreen"
+            );
+
+
+        const protectedScreen =
+            document.getElementById(
+                "protectedScreen"
+            );
+
+
+
+        // =====================================================
+        // VARIABLES
+        // =====================================================
+
+        let pdf = null;
+
+        let currentPage = 1;
+
+        let totalPages = 0;
+
+        let scale = 1.3;
+
+        let dark = false;
+
+
+
+        // =====================================================
+        // CHECK BOOK
+        // =====================================================
+
+        if (!book) {
+
+            showError(
+                "Book not found."
+            );
 
         }
 
         else {
 
-            document.body.style.background =
-                "#222";
+            bookTitle.textContent =
+                book.title;
 
-            container.style.background =
-                "#525659";
-
-            darkMode.textContent =
-                "☾";
+            openPDF();
 
         }
 
-    }
-);
+
+
+        // =====================================================
+        // OPEN PDF
+        // =====================================================
+
+        async function openPDF() {
+
+            try {
+
+
+                pdf =
+                    await pdfjsLib.getDocument(
+                        book.pdf
+                    ).promise;
+
+
+                totalPages =
+                    pdf.numPages;
+
+
+                loading.classList.add(
+                    "hidden"
+                );
+
+
+                // Render first page
+
+                await renderPage(
+                    1
+                );
+
+
+                pageInfo.textContent =
+                    "1 / " +
+                    totalPages;
 
 
 
-// =====================================================
-// FULLSCREEN
-// =====================================================
+                // Restore previous page
 
-fullscreen.addEventListener(
-    "click",
-    async function() {
+                const savedPage =
+                    Number(
+                        localStorage.getItem(
+                            "pdf-page-" +
+                            book.id
+                        )
+                    );
 
-        try {
 
-            if (
-                !document.fullscreenElement
-            ) {
+                if (
 
-                await document.documentElement
-                    .requestFullscreen();
+                    savedPage &&
+
+                    savedPage >= 1 &&
+
+                    savedPage <= totalPages
+
+                ) {
+
+                    currentPage =
+                        savedPage;
+
+
+                    await renderPage(
+                        currentPage
+                    );
+
+                }
+
 
             }
 
-            else {
+            catch (err) {
 
-                await document.exitFullscreen();
-
-            }
-
-        }
-
-        catch (err) {
-
-            console.log(err);
-
-        }
-
-    }
-);
+                console.error(err);
 
 
-
-// =====================================================
-// KEYBOARD NAVIGATION
-// =====================================================
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "ArrowRight"
-        ) {
-
-            if (
-                currentPage <
-                totalPages
-            ) {
-
-                renderPage(
-                    currentPage + 1
+                showError(
+                    "Could not open the PDF. Check that the PDF exists in your books folder."
                 );
 
             }
@@ -1341,279 +1014,944 @@ document.addEventListener(
         }
 
 
-        if (
-            event.key === "ArrowLeft"
+
+        // =====================================================
+        // STRONG CANVAS WATERMARK
+        // =====================================================
+
+        function addWatermark(
+            ctx,
+            canvas
         ) {
 
-            if (
-                currentPage > 1
+
+            const width =
+                canvas.width;
+
+
+            const height =
+                canvas.height;
+
+
+
+            // Save current canvas state
+
+            ctx.save();
+
+
+
+            // ================================================
+            // DIAGONAL WATERMARK
+            // ================================================
+
+            ctx.globalAlpha =
+                0.18;
+
+
+            ctx.fillStyle =
+                "#000000";
+
+
+            const fontSize =
+                Math.max(
+                    20,
+                    width / 32
+                );
+
+
+            ctx.font =
+                "bold " +
+                fontSize +
+                "px Arial";
+
+
+            ctx.textAlign =
+                "center";
+
+
+            ctx.textBaseline =
+                "middle";
+
+
+
+            // Move to center
+
+            ctx.translate(
+                width / 2,
+                height / 2
+            );
+
+
+            // Rotate watermark
+
+            ctx.rotate(
+                -30 *
+                Math.PI /
+                180
+            );
+
+
+
+            const spacingX =
+                Math.max(
+                    350,
+                    width * 0.55
+                );
+
+
+            const spacingY =
+                Math.max(
+                    130,
+                    height * 0.18
+                );
+
+
+
+            // Repeat watermark
+
+            for (
+
+                let y =
+                    -height;
+
+                y <
+                    height;
+
+                y +=
+                    spacingY
+
             ) {
 
-                renderPage(
-                    currentPage - 1
-                );
+
+                for (
+
+                    let x =
+                        -width;
+
+                    x <
+                        width;
+
+                    x +=
+                        spacingX
+
+                ) {
+
+
+                    ctx.fillText(
+
+                        "© MoneshSys • PROTECTED EBOOK",
+
+                        x,
+
+                        y
+
+                    );
+
+                }
 
             }
 
-        }
-
-    }
-);
 
 
-
-// =====================================================
-// ERROR
-// =====================================================
-
-function showError(message) {
-
-    loading.classList.add(
-        "hidden"
-    );
-
-
-    errorMessage.textContent =
-        message;
-
-
-    error.style.display =
-        "flex";
-
-}
+            ctx.restore();
 
 
 
-// =====================================================
-// SECURITY
-// =====================================================
+            // ================================================
+            // CENTER WATERMARK
+            // ================================================
+
+            ctx.save();
 
 
-// -----------------------------------------------------
-// BLOCK RIGHT CLICK
-// -----------------------------------------------------
-
-document.addEventListener(
-    "contextmenu",
-    function(event) {
-
-        event.preventDefault();
-
-    }
-);
+            ctx.globalAlpha =
+                0.24;
 
 
-
-// -----------------------------------------------------
-// BLOCK TEXT SELECTION
-// -----------------------------------------------------
-
-document.addEventListener(
-    "selectstart",
-    function(event) {
-
-        event.preventDefault();
-
-    }
-);
+            ctx.fillStyle =
+                "#000000";
 
 
+            ctx.font =
+                "bold " +
+                Math.max(
+                    18,
+                    width / 38
+                ) +
+                "px Arial";
 
-// -----------------------------------------------------
-// BLOCK COPY
-// -----------------------------------------------------
 
-document.addEventListener(
-    "copy",
-    function(event) {
+            ctx.textAlign =
+                "center";
 
-        event.preventDefault();
 
-    }
-);
+            ctx.textBaseline =
+                "middle";
+
+
+            ctx.fillText(
+
+                "🔒 MONESHSYS • PROTECTED",
+
+                width / 2,
+
+                height / 2
+
+            );
+
+
+            ctx.restore();
 
 
 
-// -----------------------------------------------------
-// BLOCK CUT
-// -----------------------------------------------------
+            // ================================================
+            // BOTTOM WATERMARK
+            // ================================================
 
-document.addEventListener(
-    "cut",
-    function(event) {
-
-        event.preventDefault();
-
-    }
-);
+            ctx.save();
 
 
-
-// -----------------------------------------------------
-// BLOCK DRAG
-// -----------------------------------------------------
-
-document.addEventListener(
-    "dragstart",
-    function(event) {
-
-        event.preventDefault();
-
-    }
-);
+            ctx.globalAlpha =
+                0.28;
 
 
-
-// -----------------------------------------------------
-// KEYBOARD PROTECTION
-// -----------------------------------------------------
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        const key =
-            event.key.toLowerCase();
+            ctx.fillStyle =
+                "#000000";
 
 
-        const ctrl =
-            event.ctrlKey ||
-            event.metaKey;
+            ctx.font =
+                "bold " +
+                Math.max(
+                    14,
+                    width / 50
+                ) +
+                "px Arial";
 
 
-        /*
-         * Block:
-         *
-         * Ctrl + S
-         * Ctrl + P
-         * Ctrl + C
-         * Ctrl + X
-         * Ctrl + U
-         * Ctrl + A
-         */
+            ctx.textAlign =
+                "center";
 
-        if (
-            ctrl &&
-            (
-                key === "s" ||
-                key === "p" ||
-                key === "c" ||
-                key === "x" ||
-                key === "u" ||
-                key === "a"
-            )
-        ) {
 
-            event.preventDefault();
+            ctx.fillText(
 
-            return;
+                "© MoneshSys • Unauthorized copying prohibited",
+
+                width / 2,
+
+                height - 30
+
+            );
+
+
+            ctx.restore();
 
         }
 
 
-        /*
-         * Block F12
-         */
 
-        if (
-            event.key === "F12"
+        // =====================================================
+        // RENDER PAGE
+        // =====================================================
+
+        async function renderPage(
+            pageNumber
         ) {
 
-            event.preventDefault();
 
-            return;
+            const page =
+                await pdf.getPage(
+                    pageNumber
+                );
+
+
+            const viewport =
+                page.getViewport({
+                    scale: scale
+                });
+
+
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+
+            const context =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            canvas.className =
+                "page";
+
+
+
+            canvas.width =
+                viewport.width;
+
+
+            canvas.height =
+                viewport.height;
+
+
+
+            // Prevent dragging
+
+            canvas.draggable =
+                false;
+
+
+
+            // Clear old page
+
+            container.innerHTML =
+                "";
+
+
+            container.appendChild(
+                canvas
+            );
+
+
+
+            // =================================================
+            // RENDER ORIGINAL PDF
+            // =================================================
+
+            await page.render({
+
+                canvasContext:
+                    context,
+
+                viewport:
+                    viewport
+
+            }).promise;
+
+
+
+            // =================================================
+            // APPLY WATERMARK DIRECTLY TO CANVAS
+            // =================================================
+
+            addWatermark(
+                context,
+                canvas
+            );
+
+
+
+            // Update page
+
+            currentPage =
+                pageNumber;
+
+
+            pageInfo.textContent =
+
+                currentPage +
+                " / " +
+                totalPages;
+
+
+
+            // Save reading position
+
+            localStorage.setItem(
+
+                "pdf-page-" +
+                book.id,
+
+                currentPage
+
+            );
+
+
+
+            // Update buttons
+
+            previous.disabled =
+
+                currentPage <= 1;
+
+
+            next.disabled =
+
+                currentPage >= totalPages;
 
         }
 
 
-        /*
-         * Block Ctrl + Shift + I
-         */
 
-        if (
-            ctrl &&
-            event.shiftKey &&
-            key === "i"
+        // =====================================================
+        // NEXT
+        // =====================================================
+
+        next.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                if (
+
+                    currentPage <
+                    totalPages
+
+                ) {
+
+
+                    renderPage(
+
+                        currentPage +
+                        1
+
+                    );
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // PREVIOUS
+        // =====================================================
+
+        previous.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                if (
+
+                    currentPage >
+                    1
+
+                ) {
+
+
+                    renderPage(
+
+                        currentPage -
+                        1
+
+                    );
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // ZOOM IN
+        // =====================================================
+
+        zoomIn.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                if (
+
+                    scale <
+                    2.5
+
+                ) {
+
+
+                    scale +=
+                        0.2;
+
+
+                    renderPage(
+                        currentPage
+                    );
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // ZOOM OUT
+        // =====================================================
+
+        zoomOut.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                if (
+
+                    scale >
+                    0.7
+
+                ) {
+
+
+                    scale -=
+                        0.2;
+
+
+                    renderPage(
+                        currentPage
+                    );
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // DARK MODE
+        // =====================================================
+
+        darkMode.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                dark =
+                    !dark;
+
+
+                if (dark) {
+
+
+                    document.body.style.background =
+                        "#181818";
+
+
+                    container.style.background =
+                        "#181818";
+
+
+                    darkMode.textContent =
+                        "☀";
+
+                }
+
+                else {
+
+
+                    document.body.style.background =
+                        "#222";
+
+
+                    container.style.background =
+                        "#525659";
+
+
+                    darkMode.textContent =
+                        "☾";
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // FULLSCREEN
+        // =====================================================
+
+        fullscreen.addEventListener(
+
+            "click",
+
+            async function() {
+
+
+                try {
+
+
+                    if (
+
+                        !document.fullscreenElement
+
+                    ) {
+
+
+                        await document
+                            .documentElement
+                            .requestFullscreen();
+
+                    }
+
+                    else {
+
+
+                        await document
+                            .exitFullscreen();
+
+                    }
+
+
+                }
+
+                catch (err) {
+
+                    console.log(err);
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // KEYBOARD NAVIGATION
+        // =====================================================
+
+        document.addEventListener(
+
+            "keydown",
+
+            function(event) {
+
+
+                // Next page
+
+                if (
+
+                    event.key ===
+                    "ArrowRight"
+
+                ) {
+
+
+                    if (
+
+                        currentPage <
+                        totalPages
+
+                    ) {
+
+
+                        renderPage(
+
+                            currentPage +
+                            1
+
+                        );
+
+                    }
+
+                }
+
+
+
+                // Previous page
+
+                if (
+
+                    event.key ===
+                    "ArrowLeft"
+
+                ) {
+
+
+                    if (
+
+                        currentPage >
+                        1
+
+                    ) {
+
+
+                        renderPage(
+
+                            currentPage -
+                            1
+
+                        );
+
+                    }
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // ERROR
+        // =====================================================
+
+        function showError(
+            message
         ) {
 
-            event.preventDefault();
 
-            return;
+            loading.classList.add(
+                "hidden"
+            );
+
+
+            errorMessage.textContent =
+                message;
+
+
+            error.style.display =
+                "flex";
 
         }
 
 
-        /*
-         * Block Ctrl + Shift + J
-         */
 
-        if (
-            ctrl &&
-            event.shiftKey &&
-            key === "j"
-        ) {
+        // =====================================================
+        // BASIC UI PROTECTION
+        // =====================================================
 
-            event.preventDefault();
+        // Disable right click
 
-            return;
+        document.addEventListener(
 
-        }
+            "contextmenu",
 
+            function(event) {
 
-        /*
-         * Block Ctrl + Shift + C
-         */
+                event.preventDefault();
 
-        if (
-            ctrl &&
-            event.shiftKey &&
-            key === "c"
-        ) {
+            }
 
-            event.preventDefault();
-
-            return;
-
-        }
-
-    }
-);
+        );
 
 
 
-// =====================================================
-// TAB / WINDOW VISIBILITY PROTECTION
-// =====================================================
+        // Disable copy
 
-document.addEventListener(
-    "visibilitychange",
-    function() {
+        document.addEventListener(
 
-        if (
-            document.hidden
-        ) {
+            "copy",
 
-            /*
-             * Hide ebook when user
-             * switches tabs/windows.
-             */
+            function(event) {
+
+                event.preventDefault();
+
+            }
+
+        );
+
+
+
+        // Disable cut
+
+        document.addEventListener(
+
+            "cut",
+
+            function(event) {
+
+                event.preventDefault();
+
+            }
+
+        );
+
+
+
+        // Disable text selection
+
+        document.addEventListener(
+
+            "selectstart",
+
+            function(event) {
+
+                event.preventDefault();
+
+            }
+
+        );
+
+
+
+        // Disable drag
+
+        document.addEventListener(
+
+            "dragstart",
+
+            function(event) {
+
+                event.preventDefault();
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // BLOCK COMMON SHORTCUTS
+        // =====================================================
+
+        document.addEventListener(
+
+            "keydown",
+
+            function(event) {
+
+
+                const key =
+                    event.key.toLowerCase();
+
+
+
+                // Ctrl / CMD shortcuts
+
+                if (
+
+                    event.ctrlKey ||
+                    event.metaKey
+
+                ) {
+
+
+                    if (
+
+                        key === "s" ||
+
+                        key === "p" ||
+
+                        key === "c" ||
+
+                        key === "x" ||
+
+                        key === "u" ||
+
+                        key === "a"
+
+                    ) {
+
+
+                        event.preventDefault();
+
+                    }
+
+                }
+
+
+
+                // Developer tools
+
+                if (
+
+                    event.key ===
+                    "F12"
+
+                ) {
+
+
+                    event.preventDefault();
+
+                }
+
+
+
+                if (
+
+                    (event.ctrlKey ||
+                     event.metaKey) &&
+
+                    event.shiftKey &&
+
+                    (
+
+                        key === "i" ||
+
+                        key === "j" ||
+
+                        key === "c"
+
+                    )
+
+                ) {
+
+
+                    event.preventDefault();
+
+                }
+
+            }
+
+        );
+
+
+
+        // =====================================================
+        // HIDE READER WHEN WINDOW LOSES FOCUS
+        // =====================================================
+
+        let readerHidden =
+            false;
+
+
+
+        function hideReader() {
+
+
+            if (readerHidden)
+                return;
+
+
+            readerHidden =
+                true;
+
 
             container.style.visibility =
                 "hidden";
 
 
-            securityScreen.style.display =
+            protectedScreen.style.display =
                 "flex";
 
         }
 
-        else {
 
-            /*
-             * Show ebook again.
-             */
 
-            securityScreen.style.display =
+        function showReader() {
+
+
+            if (!readerHidden)
+                return;
+
+
+            readerHidden =
+                false;
+
+
+            protectedScreen.style.display =
                 "none";
 
 
@@ -1622,135 +1960,131 @@ document.addEventListener(
 
         }
 
-    }
-);
+
+
+        // When tab becomes hidden
+
+        document.addEventListener(
+
+            "visibilitychange",
+
+            function() {
+
+
+                if (
+
+                    document.hidden
+
+                ) {
+
+                    hideReader();
+
+                }
+
+                else {
+
+                    showReader();
+
+                }
+
+            }
+
+        );
 
 
 
-// =====================================================
-// WINDOW BLUR PROTECTION
-// =====================================================
+        // When browser window loses focus
 
-window.addEventListener(
-    "blur",
-    function() {
+        window.addEventListener(
 
-        container.style.visibility =
-            "hidden";
+            "blur",
 
+            function() {
 
-        securityScreen.style.display =
-            "flex";
+                hideReader();
 
-    }
-);
+            }
 
-
-window.addEventListener(
-    "focus",
-    function() {
-
-        securityScreen.style.display =
-            "none";
-
-
-        container.style.visibility =
-            "visible";
-
-    }
-);
+        );
 
 
 
-// =====================================================
-// PRINT PROTECTION
-// =====================================================
+        window.addEventListener(
 
-window.addEventListener(
-    "beforeprint",
-    function() {
+            "focus",
 
-        container.style.display =
-            "none";
+            function() {
 
-        securityScreen.style.display =
-            "flex";
+                showReader();
 
-    }
-);
+            }
 
-
-window.addEventListener(
-    "afterprint",
-    function() {
-
-        container.style.display =
-            "block";
-
-        securityScreen.style.display =
-            "none";
-
-    }
-);
+        );
 
 
 
-// =====================================================
-// EXTRA CANVAS PROTECTION
-// =====================================================
+        // =====================================================
+        // PRINT PROTECTION
+        // =====================================================
 
-document.addEventListener(
-    "mousedown",
-    function(event) {
+        window.addEventListener(
 
-        if (
-            event.button === 2
-        ) {
+            "beforeprint",
 
-            event.preventDefault();
+            function() {
 
-        }
+                hideReader();
 
-    }
-);
+            }
+
+        );
 
 
+        window.addEventListener(
 
-// =====================================================
-// DISABLE IMAGE / CANVAS DRAGGING
-// =====================================================
+            "afterprint",
 
-document.addEventListener(
-    "drag",
-    function(event) {
+            function() {
 
-        event.preventDefault();
+                showReader();
 
-    }
-);
+            }
+
+        );
 
 
 
-// =====================================================
-// BEFORE UNLOAD
-// =====================================================
+        // =====================================================
+        // PREVENT CANVAS DRAGGING
+        // =====================================================
 
-window.addEventListener(
-    "beforeunload",
-    function() {
+        document.addEventListener(
 
-        /*
-         * Reading position is already
-         * saved whenever the page changes.
-         */
+            "mousedown",
 
-    }
-);
+            function(event) {
 
 
-</script>
+                if (
+
+                    event.target.tagName ===
+                    "CANVAS"
+
+                ) {
+
+                    event.preventDefault();
+
+                }
+
+            }
+
+        );
+
+
+
+    </script>
+
 
 </body>
 
 </html>
-```
