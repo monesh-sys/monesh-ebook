@@ -2,18 +2,12 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="theme-color"
-        content="#0b0b0d"
-    >
+    <meta name="theme-color" content="#0b0b0d">
 
     <title>Monesh Ebooks</title>
 
@@ -43,7 +37,7 @@
                 "Segoe UI",
                 sans-serif;
 
-            background: #f6f6f4;
+            background: #f5f5f3;
             color: #111;
             overflow-x: hidden;
         }
@@ -63,15 +57,15 @@
             top: 0;
             z-index: 1000;
 
-            height: 72px;
+            height: 74px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            padding: 0 6%;
+            padding: 0 5%;
 
-            background: rgba(255,255,255,0.82);
+            background: rgba(255,255,255,0.88);
 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -85,6 +79,8 @@
             align-items: center;
             gap: 11px;
 
+            flex-shrink: 0;
+
             font-size: 14px;
             font-weight: 800;
             letter-spacing: 1px;
@@ -92,23 +88,23 @@
 
 
         .brand-mark {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            border-radius: 12px;
+            border-radius: 13px;
 
             background: #111;
-            color: white;
+            color: #fff;
 
             font-size: 20px;
             font-weight: 900;
 
             box-shadow:
-                0 8px 25px rgba(0,0,0,0.18);
+                0 8px 25px rgba(0,0,0,.18);
         }
 
 
@@ -118,34 +114,60 @@
 
 
         /* =========================
-           NAV
+           NAVIGATION
         ========================= */
 
         .nav {
             display: flex;
             align-items: center;
+
             gap: 5px;
+
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav::-webkit-scrollbar {
+            display: none;
         }
 
 
         .nav a {
+            white-space: nowrap;
+
             padding: 10px 14px;
 
-            border-radius: 10px;
+            border-radius: 11px;
 
             color: #666;
 
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 750;
 
-            transition: 0.25s;
+            transition: .25s;
         }
 
 
         .nav a:hover {
             background: #111;
-            color: white;
+            color: #fff;
+
             transform: translateY(-2px);
+        }
+
+
+        /* Library button */
+
+        .library-btn {
+            background: #111;
+            color: #fff !important;
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,.16);
+        }
+
+        .library-btn:hover {
+            background: #2b2b2b !important;
         }
 
 
@@ -156,7 +178,7 @@
         .hero {
             position: relative;
 
-            min-height: 650px;
+            min-height: 680px;
 
             display: flex;
             align-items: center;
@@ -165,56 +187,58 @@
 
             background:
                 radial-gradient(
-                    circle at 85% 20%,
-                    #d8d8d8,
-                    transparent 28%
+                    circle at 85% 15%,
+                    #dededb,
+                    transparent 27%
                 ),
                 radial-gradient(
-                    circle at 15% 90%,
-                    #e5e5e5,
+                    circle at 10% 85%,
+                    #e7e7e4,
                     transparent 30%
                 ),
-                #f6f6f4;
+                #f5f5f3;
         }
 
 
-        /* Decorative circles */
+        /* Large background circle */
 
         .hero::before {
             content: "";
 
             position: absolute;
 
-            width: 420px;
-            height: 420px;
+            width: 500px;
+            height: 500px;
 
-            right: -170px;
+            right: -200px;
             top: 80px;
 
             border-radius: 50%;
 
             background: #111;
 
-            opacity: 0.035;
+            opacity: .035;
         }
 
+
+        /* Small background circle */
 
         .hero::after {
             content: "";
 
             position: absolute;
 
-            width: 280px;
-            height: 280px;
+            width: 300px;
+            height: 300px;
 
-            left: -150px;
-            bottom: -150px;
+            left: -170px;
+            bottom: -160px;
 
-            border: 55px solid #111;
+            border: 60px solid #111;
 
             border-radius: 50%;
 
-            opacity: 0.035;
+            opacity: .035;
         }
 
 
@@ -228,27 +252,47 @@
         }
 
 
-        .kicker {
-            display: inline-block;
+        /* =========================
+           HERO BADGE
+        ========================= */
 
-            margin-bottom: 18px;
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 20px;
 
             padding: 8px 13px;
 
             border-radius: 100px;
 
             background: #111;
-            color: white;
+            color: #fff;
 
             font-size: 10px;
             font-weight: 900;
 
             letter-spacing: 2px;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.12);
         }
 
 
+        .kicker::before {
+            content: "✦";
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           HERO TITLE
+        ========================= */
+
         .hero h1 {
-            max-width: 850px;
+            max-width: 900px;
 
             font-size: clamp(
                 48px,
@@ -256,7 +300,7 @@
                 100px
             );
 
-            line-height: 0.92;
+            line-height: .94;
 
             letter-spacing: -5px;
 
@@ -265,12 +309,14 @@
 
 
         .hero h1 span {
+            display: block;
+
             color: #777;
         }
 
 
         .hero-description {
-            max-width: 550px;
+            max-width: 570px;
 
             margin-top: 28px;
 
@@ -283,7 +329,7 @@
 
 
         /* =========================
-           HERO BUTTONS
+           BUTTONS
         ========================= */
 
         .hero-buttons {
@@ -312,21 +358,22 @@
             font-size: 14px;
             font-weight: 800;
 
-            transition: 0.25s;
+            transition: .25s;
         }
 
 
         .btn-dark {
             background: #111;
-            color: white;
+            color: #fff;
 
             box-shadow:
-                0 12px 30px rgba(0,0,0,0.18);
+                0 12px 30px rgba(0,0,0,.18);
         }
 
 
         .btn-light {
-            background: white;
+            background: rgba(255,255,255,.8);
+
             color: #111;
 
             border: 1px solid #ddd;
@@ -334,46 +381,80 @@
 
 
         .btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,.14);
         }
 
 
         /* =========================
-           STATS
+           HERO STATS
         ========================= */
 
         .hero-stats {
             display: flex;
 
-            gap: 35px;
+            gap: 38px;
 
             margin-top: 55px;
+        }
+
+
+        .stat {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: #fff;
+
+            border: 1px solid #e5e5e5;
+
+            font-size: 17px;
         }
 
 
         .stat strong {
             display: block;
 
-            font-size: 25px;
-            font-weight: 900;
+            font-size: 12px;
+
+            font-weight: 850;
         }
 
 
         .stat small {
-            color: #888;
+            display: block;
 
-            font-size: 11px;
+            margin-top: 2px;
+
+            color: #999;
+
+            font-size: 10px;
         }
 
 
         /* =========================
-           BOOK SECTION
+           FEATURED SECTION
         ========================= */
 
         .section {
-            padding: 90px 0;
+            padding: 95px 0;
 
-            background: white;
+            background: #fff;
         }
 
 
@@ -394,9 +475,18 @@
         }
 
 
-        .section-heading h2 {
-            margin-top: 8px;
+        .section-heading .kicker {
+            margin-bottom: 8px;
 
+            background: #f1f1ef;
+
+            color: #111;
+
+            box-shadow: none;
+        }
+
+
+        .section-heading h2 {
             font-size: clamp(
                 30px,
                 5vw,
@@ -404,20 +494,32 @@
             );
 
             letter-spacing: -2px;
+
+            font-weight: 900;
         }
 
 
-        .section-heading > a {
+        .view-all {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            color: #666;
+
             font-size: 13px;
 
             font-weight: 800;
 
-            color: #666;
+            transition: .2s;
         }
 
 
-        .section-heading > a:hover {
+        .view-all:hover {
             color: #111;
+
+            transform: translateX(3px);
         }
 
 
@@ -449,10 +551,10 @@
 
 
         .book-grid > *:hover {
-            transform: translateY(-7px);
+            transform: translateY(-8px);
 
             box-shadow:
-                0 18px 40px rgba(0,0,0,0.12);
+                0 20px 45px rgba(0,0,0,.12);
         }
 
 
@@ -461,7 +563,7 @@
         ========================= */
 
         .footer {
-            padding: 35px 20px;
+            padding: 38px 20px;
 
             background: #0b0b0d;
 
@@ -484,7 +586,7 @@
             }
 
             .hero {
-                min-height: 580px;
+                min-height: 610px;
             }
 
             .hero h1 {
@@ -506,22 +608,24 @@
         @media (max-width: 600px) {
 
             .header {
-                height: 64px;
+                height: 65px;
 
-                padding: 0 15px;
+                padding: 0 12px;
+
+                gap: 10px;
             }
 
 
             .brand {
-                font-size: 11px;
+                font-size: 10px;
 
-                letter-spacing: .7px;
+                gap: 7px;
             }
 
 
             .brand-mark {
-                width: 36px;
-                height: 36px;
+                width: 35px;
+                height: 35px;
 
                 border-radius: 10px;
 
@@ -529,30 +633,35 @@
             }
 
 
-            /* Mobile navigation */
-
             .nav {
                 gap: 2px;
+
+                flex: 1;
+
+                justify-content: flex-end;
             }
 
 
             .nav a {
-                padding: 8px;
+                padding: 8px 9px;
 
-                font-size: 11px;
+                font-size: 10px;
             }
 
 
-            .nav a:nth-child(3),
-            .nav a:nth-child(4) {
-                display: none;
+            /* Keep Library visible */
+
+            .library-btn {
+                padding: 8px 10px !important;
             }
 
 
-            /* Hero */
+            /* =====================
+               MOBILE HERO
+            ===================== */
 
             .hero {
-                min-height: 600px;
+                min-height: 650px;
 
                 align-items: center;
             }
@@ -568,18 +677,18 @@
 
                 padding: 7px 11px;
 
-                margin-bottom: 16px;
+                margin-bottom: 17px;
             }
 
 
             .hero h1 {
                 font-size: clamp(
-                    48px,
-                    15vw,
-                    68px
+                    45px,
+                    14vw,
+                    65px
                 );
 
-                line-height: .94;
+                line-height: .95;
 
                 letter-spacing: -3px;
             }
@@ -599,7 +708,7 @@
 
                 align-items: stretch;
 
-                margin-top: 28px;
+                margin-top: 27px;
             }
 
 
@@ -611,26 +720,43 @@
 
 
             .hero-stats {
-                gap: 22px;
+                gap: 13px;
 
-                margin-top: 38px;
+                margin-top: 40px;
+
+                justify-content: space-between;
+            }
+
+
+            .stat {
+                gap: 6px;
+            }
+
+
+            .stat-icon {
+                width: 32px;
+                height: 32px;
+
+                font-size: 14px;
             }
 
 
             .stat strong {
-                font-size: 21px;
+                font-size: 10px;
             }
 
 
             .stat small {
-                font-size: 9px;
+                font-size: 8px;
             }
 
 
-            /* Books */
+            /* =====================
+               MOBILE BOOKS
+            ===================== */
 
             .section {
-                padding: 60px 0;
+                padding: 65px 0;
             }
 
 
@@ -640,8 +766,6 @@
 
 
             .section-heading {
-                align-items: end;
-
                 margin-bottom: 25px;
             }
 
@@ -653,7 +777,12 @@
             }
 
 
-            .section-heading > a {
+            .section-heading .kicker {
+                font-size: 8px;
+            }
+
+
+            .view-all {
                 font-size: 11px;
             }
 
@@ -674,32 +803,32 @@
 
 
         /* =========================
-           VERY SMALL PHONES
+           SMALL PHONES
         ========================= */
 
         @media (max-width: 380px) {
 
-            .nav a {
-                padding: 6px;
+            .brand span:last-child {
+                display: none;
+            }
 
-                font-size: 10px;
+
+            .nav a {
+                padding: 7px;
+
+                font-size: 9px;
             }
 
 
             .hero h1 {
-                font-size: 47px;
+                font-size: 45px;
 
                 letter-spacing: -2.5px;
             }
 
 
             .hero-stats {
-                gap: 15px;
-            }
-
-
-            .stat strong {
-                font-size: 19px;
+                gap: 8px;
             }
 
         }
@@ -744,12 +873,16 @@
             Books
         </a>
 
-        <a href="library.html">
-            Library
+        <!-- LIBRARY BUTTON -->
+        <a
+            href="library.html"
+            class="library-btn"
+        >
+            📚 Library
         </a>
 
         <a href="cart.html">
-            Cart
+            🛒 Cart
         </a>
 
     </nav>
@@ -772,16 +905,16 @@
 
 
         <h1>
-            Stories worth
-            <span>keeping.</span>
+            Discover your
+            <span>next favorite book.</span>
         </h1>
 
 
         <p class="hero-description">
 
-            Discover exciting adventures,
-            programming books, educational guides
-            and stories designed to stay with you.
+            Explore exciting stories, programming books,
+            educational guides and more — all in one
+            beautiful digital library.
 
         </p>
 
@@ -797,10 +930,10 @@
 
 
             <a
-                href="#featured"
+                href="library.html"
                 class="btn btn-light"
             >
-                Featured Books
+                📚 My Library
             </a>
 
         </div>
@@ -810,33 +943,51 @@
 
             <div class="stat">
 
-                <strong>📚</strong>
+                <div class="stat-icon">
+                    📚
+                </div>
 
-                <small>
-                    Digital Books
-                </small>
+                <div>
+                    <strong>Digital Books</strong>
 
-            </div>
-
-
-            <div class="stat">
-
-                <strong>⚡</strong>
-
-                <small>
-                    Instant Access
-                </small>
+                    <small>
+                        Read anywhere
+                    </small>
+                </div>
 
             </div>
 
 
             <div class="stat">
 
-                <strong>🔒</strong>
+                <div class="stat-icon">
+                    ⚡
+                </div>
 
-                <small>
-                    Protected Reading
-                </small>
+                <div>
+                    <strong>Instant Access</strong>
+
+                    <small>
+                        Start reading fast
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    🔒
+                </div>
+
+                <div>
+                    <strong>Protected</strong>
+
+                    <small>
+                        Secure reading
+                    </small>
+                </div>
 
             </div>
 
@@ -865,7 +1016,7 @@
             <div>
 
                 <p class="kicker">
-                    FEATURED
+                    FEATURED BOOKS
                 </p>
 
                 <h2>
@@ -875,7 +1026,10 @@
             </div>
 
 
-            <a href="books.html">
+            <a
+                href="books.html"
+                class="view-all"
+            >
                 View all →
             </a>
 
@@ -901,6 +1055,8 @@
 <footer class="footer">
 
     © 2026 Monesh Ebooks
+    <br><br>
+    Read. Learn. Explore.
 
 </footer>
 
